@@ -18,6 +18,7 @@ export default function Index() {
   const [tpsData, setTpsData] = useState<{ time: string; value: number }[]>([]);
   const [latencyData, setLatencyData] = useState<{ time: string; value: number }[]>([]);
   const [logs, setLogs] = useState<string[]>([]);
+  const [activeTab, setActiveTab] = useState(1);
 
   useEffect(() => {
     let currentTotalTx = 0;
@@ -87,8 +88,20 @@ export default function Index() {
         tpsChart: <TPSChart data={tpsData} />,
         latencyChart: <LatencyChart data={latencyData} />,
       }}
+      activeTab={activeTab}
+      onTabChange={setActiveTab}
     >
-      <WorldMap />
+      {activeTab === 1 && <WorldMap />}
+      {activeTab === 2 && (
+        <div className="flex items-center justify-center h-full text-2xl text-gray-400 font-bold">
+          Screen 2
+        </div>
+      )}
+      {activeTab === 3 && (
+        <div className="flex items-center justify-center h-full text-2xl text-gray-400 font-bold">
+          Screen 3
+        </div>
+      )}
     </Dashboard>
   );
 }

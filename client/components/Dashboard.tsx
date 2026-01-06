@@ -16,6 +16,8 @@ interface DashboardProps {
     latencyChart: React.ReactNode;
   };
   children: React.ReactNode;
+  activeTab: number;
+  onTabChange: (tab: number) => void;
 }
 
 const Dashboard: React.FC<DashboardProps> = ({
@@ -23,6 +25,8 @@ const Dashboard: React.FC<DashboardProps> = ({
   logs,
   charts,
   children,
+  activeTab,
+  onTabChange,
 }) => {
   const logContainerRef = useRef<HTMLDivElement>(null);
 
@@ -31,6 +35,22 @@ const Dashboard: React.FC<DashboardProps> = ({
       logContainerRef.current.scrollTop = logContainerRef.current.scrollHeight;
     }
   }, [logs]);
+
+  const getButtonStyle = (tabIndex: number) => {
+    const isActive = activeTab === tabIndex;
+    return {
+      padding: "20px",
+      backgroundColor: "#FFF",
+      borderRadius: "8px",
+      border: isActive ? "1.25px solid #6C6E82" : "1.25px solid #9E9E9E",
+      color: isActive ? "#000" : "#9E9E9E",
+      fontWeight: "700",
+      fontSize: "20px",
+      lineHeight: "20px",
+      cursor: "pointer",
+      transition: "all 0.2s",
+    } as React.CSSProperties;
+  };
 
   return (
     <div className="dashboard-container">
@@ -94,52 +114,22 @@ const Dashboard: React.FC<DashboardProps> = ({
             }}
           >
             <button
-              style={{
-                padding: "20px",
-                backgroundColor: "#FFF",
-                borderRadius: "8px",
-                border: "1.25px solid #9E9E9E",
-                color: "#9E9E9E",
-                fontWeight: "700",
-                fontSize: "20px",
-                lineHeight: "20px",
-                cursor: "pointer",
-                transition: "all 0.2s",
-              }}
+              style={getButtonStyle(1)}
+              onClick={() => onTabChange(1)}
             >
-              Base Committee
+              1
             </button>
             <button
-              style={{
-                padding: "20px",
-                backgroundColor: "#FFF",
-                borderRadius: "8px",
-                border: "1.25px solid #6C6E82",
-                color: "#000",
-                fontWeight: "700",
-                fontSize: "20px",
-                lineHeight: "20px",
-                cursor: "pointer",
-                transition: "all 0.2s",
-              }}
+              style={getButtonStyle(2)}
+              onClick={() => onTabChange(2)}
             >
-              Overview
+              2
             </button>
             <button
-              style={{
-                padding: "20px",
-                backgroundColor: "#FFF",
-                borderRadius: "8px",
-                border: "1.25px solid #6C6E82",
-                color: "#000",
-                fontWeight: "700",
-                fontSize: "20px",
-                lineHeight: "20px",
-                cursor: "pointer",
-                transition: "all 0.2s",
-              }}
+              style={getButtonStyle(3)}
+              onClick={() => onTabChange(3)}
             >
-              Overview
+              3
             </button>
           </div>
 
