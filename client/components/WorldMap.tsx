@@ -7,188 +7,46 @@ interface PinLocation {
 }
 
 interface PinGroup {
-  x: number; // group center x position
-  y: number; // group center y position
+  x: number; // pin absolute x position (left edge of background)
+  y: number; // pin absolute y position (top edge of background)
   bgWidth: number; // background width
   bgHeight: number; // background height
-  pins: PinLocation[];
+  pinX: number; // pin offset from background left
+  pinY: number; // pin offset from background top
+  country: string;
 }
 
-// Pin groups matching the Figma design (1850x1000 container)
+// Pin groups with exact positions from Figma design (based on 1547x896 inner container at offset 180,26)
 const pinGroups: PinGroup[] = [
-  // North America - Top Left cluster (multiple US pins)
-  {
-    x: 200,
-    y: 240,
-    bgWidth: 192,
-    bgHeight: 110,
-    pins: [
-      { country: "ca", offsetX: 0, offsetY: -20 },
-    ],
-  },
-  {
-    x: 240,
-    y: 360,
-    bgWidth: 132,
-    bgHeight: 117,
-    pins: [
-      { country: "us", offsetX: 0, offsetY: -20 },
-    ],
-  },
-  {
-    x: 330,
-    y: 345,
-    bgWidth: 128,
-    bgHeight: 112,
-    pins: [
-      { country: "us", offsetX: 0, offsetY: -20 },
-    ],
-  },
-  {
-    x: 320,
-    y: 265,
-    bgWidth: 247,
-    bgHeight: 111,
-    pins: [
-      { country: "us", offsetX: 0, offsetY: -20 },
-    ],
-  },
+  // Canada
+  { x: 286, y: 230, bgWidth: 192, bgHeight: 110, pinX: 72, pinY: 21, country: "ca" },
   
-  // Europe cluster
-  {
-    x: 520,
-    y: 250,
-    bgWidth: 247,
-    bgHeight: 247,
-    pins: [
-      { country: "ie", offsetX: 0, offsetY: -20 },
-    ],
-  },
-  {
-    x: 670,
-    y: 245,
-    bgWidth: 250,
-    bgHeight: 250,
-    pins: [
-      { country: "uk", offsetX: 0, offsetY: -20 },
-    ],
-  },
-  {
-    x: 790,
-    y: 155,
-    bgWidth: 250,
-    bgHeight: 250,
-    pins: [
-      { country: "se", offsetX: 0, offsetY: -20 },
-    ],
-  },
-  {
-    x: 775,
-    y: 290,
-    bgWidth: 221,
-    bgHeight: 221,
-    pins: [
-      { country: "de", offsetX: 0, offsetY: -20 },
-    ],
-  },
-  {
-    x: 685,
-    y: 520,
-    bgWidth: 124,
-    bgHeight: 113,
-    pins: [
-      { country: "fr", offsetX: 0, offsetY: -20 },
-    ],
-  },
+  // US pins
+  { x: 203, y: 338, bgWidth: 132, bgHeight: 117, pinX: 42, pinY: 12, country: "us" },
+  { x: 366, y: 325, bgWidth: 247, bgHeight: 111, pinX: 122, pinY: 16, country: "us" },
+  { x: 180, y: 438, bgWidth: 238, bgHeight: 238, pinX: 74, pinY: 59, country: "us" },
+  { x: 387, y: 440, bgWidth: 128, bgHeight: 112, pinX: 39, pinY: 12, country: "us" },
   
-  // Asia cluster
-  {
-    x: 1042,
-    y: 325,
-    bgWidth: 134,
-    bgHeight: 133,
-    pins: [
-      { country: "in", offsetX: 0, offsetY: -20 },
-    ],
-  },
-  {
-    x: 1085,
-    y: 445,
-    bgWidth: 224,
-    bgHeight: 224,
-    pins: [
-      { country: "sg", offsetX: 0, offsetY: -20 },
-    ],
-  },
-  {
-    x: 1196,
-    y: 405,
-    bgWidth: 195,
-    bgHeight: 195,
-    pins: [
-      { country: "hk", offsetX: 0, offsetY: -20 },
-    ],
-  },
-  {
-    x: 1370,
-    y: 310,
-    bgWidth: 182,
-    bgHeight: 260,
-    pins: [
-      { country: "kr", offsetX: 0, offsetY: -20 },
-    ],
-  },
-  {
-    x: 1393,
-    y: 505,
-    bgWidth: 179,
-    bgHeight: 179,
-    pins: [
-      { country: "jp", offsetX: 0, offsetY: -20 },
-    ],
-  },
-  {
-    x: 1535,
-    y: 470,
-    bgWidth: 125,
-    bgHeight: 209,
-    pins: [
-      { country: "jp", offsetX: 0, offsetY: -20 },
-    ],
-  },
+  // Europe
+  { x: 600, y: 213, bgWidth: 247, bgHeight: 247, pinX: 88, pinY: 55, country: "ie" },
+  { x: 740, y: 212, bgWidth: 250, bgHeight: 250, pinX: 103, pinY: 52, country: "uk" },
+  { x: 875, y: 136, bgWidth: 250, bgHeight: 250, pinX: 82, pinY: 110, country: "se" },
+  { x: 842, y: 276, bgWidth: 221, bgHeight: 221, pinX: 97, pinY: 33, country: "de" },
+  { x: 751, y: 508, bgWidth: 124, bgHeight: 113, pinX: 39, pinY: 16, country: "fr" },
+  
+  // Asia
+  { x: 1108, y: 316, bgWidth: 134, bgHeight: 133, pinX: 43, pinY: 19, country: "in" },
+  { x: 1145, y: 433, bgWidth: 224, bgHeight: 224, pinX: 122, pinY: 81, country: "sg" },
+  { x: 1262, y: 329, bgWidth: 195, bgHeight: 195, pinX: 85, pinY: 40, country: "hk" },
+  { x: 1436, y: 249, bgWidth: 182, bgHeight: 260, pinX: 64, pinY: 82, country: "kr" },
+  { x: 1459, y: 486, bgWidth: 179, bgHeight: 179, pinX: 56, pinY: 13, country: "jp" },
+  { x: 1601, y: 396, bgWidth: 125, bgHeight: 209, pinX: 52, pinY: 86, country: "jp" },
   
   // South America
-  {
-    x: 340,
-    y: 715,
-    bgWidth: 219,
-    bgHeight: 219,
-    pins: [
-      { country: "br", offsetX: 0, offsetY: -20 },
-    ],
-  },
+  { x: 408, y: 703, bgWidth: 219, bgHeight: 219, pinX: 101, pinY: 27, country: "br" },
   
-  // Oceania
-  {
-    x: 1439,
-    y: 760,
-    bgWidth: 119,
-    bgHeight: 113,
-    pins: [
-      { country: "au", offsetX: 0, offsetY: -20 },
-    ],
-  },
-  
-  // North America additional cluster
-  {
-    x: 152,
-    y: 445,
-    bgWidth: 238,
-    bgHeight: 238,
-    pins: [
-      { country: "us", offsetX: 0, offsetY: -20 },
-    ],
-  },
+  // Australia
+  { x: 1505, y: 744, bgWidth: 119, bgHeight: 113, pinX: 36, pinY: 19, country: "au" },
 ];
 
 export default function WorldMap() {
@@ -288,31 +146,25 @@ export default function WorldMap() {
             style={{
               left: `${group.x}px`,
               top: `${group.y}px`,
+              width: `${group.bgWidth}px`,
+              height: `${group.bgHeight}px`,
             }}
           >
-            {/* Semi-transparent rounded background for the group */}
+            {/* Semi-transparent rounded background */}
             <div
-              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-black/15 rounded-[20px] -z-10"
-              style={{
-                width: `${group.bgWidth}px`,
-                height: `${group.bgHeight}px`,
-              }}
+              className="absolute inset-0 bg-black/15 rounded-[20px] -z-10"
             />
             
-            {/* Pins within the group */}
-            {group.pins.map((pin, pinIndex) => (
-              <div
-                key={pinIndex}
-                className="absolute"
-                style={{
-                  left: `${pin.offsetX}px`,
-                  top: `${pin.offsetY}px`,
-                  transform: 'translate(-50%, -100%)',
-                }}
-              >
-                <LocationPin country={pin.country} />
-              </div>
-            ))}
+            {/* Pin positioned within the background */}
+            <div
+              className="absolute"
+              style={{
+                left: `${group.pinX}px`,
+                top: `${group.pinY}px`,
+              }}
+            >
+              <LocationPin country={group.country} />
+            </div>
           </div>
         ))}
       </div>
