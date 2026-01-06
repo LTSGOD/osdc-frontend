@@ -78,8 +78,7 @@
 }
 
 .log-container {
-  height: 332px; /* Spec 6 */
-  flex: none;
+  flex: 1;
   background-color: #ffffff;
   padding: 4px 8px; /* Spec 6 Padding */
   overflow-y: auto;
@@ -89,6 +88,7 @@
   /* border-top은 위쪽 아이템의 border-bottom으로 대체 */
   border-right: 1px solid #b0b0b0; /* 사이드바 우측 경계 */
   line-height: 1.4;
+  box-sizing: border-box;
 }
 
 .log-header {
