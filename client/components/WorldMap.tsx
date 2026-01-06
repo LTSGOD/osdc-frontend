@@ -40,7 +40,7 @@ const pinGroups: PinGroup[] = [
     bgSvg: (
       <svg
         className="absolute"
-        style={{ left: "203px", top: "338px", width: "132px", height: "117px" }}
+        style={{ left: "187px", top: "350px", width: "132px", height: "117px" }}
         viewBox="0 0 132 117"
         fill="none"
       >
@@ -58,19 +58,19 @@ const pinGroups: PinGroup[] = [
   // US pin 2
   {
     x: 488,
-    y: 341,
+    y: 291,
     country: "us",
     bgSvg: (
       <svg
         className="absolute"
-        style={{ left: "366px", top: "325px", width: "247px", height: "111px" }}
-        viewBox="0 0 247 111"
+        style={{ left: "400px", top: "335px", width: "132px", height: "117px" }}
+        viewBox="0 0 132 117"
         fill="none"
       >
         <rect
-          y="37"
-          width="247"
-          height="74"
+          y="12"
+          width="132"
+          height="105"
           rx="20"
           fill="black"
           fillOpacity="0.15"
@@ -86,7 +86,7 @@ const pinGroups: PinGroup[] = [
     bgSvg: (
       <svg
         className="absolute"
-        style={{ left: "180px", top: "379px", width: "238px", height: "238px" }}
+        style={{ left: "187px", top: "475px", width: "238px", height: "238px" }}
         viewBox="0 0 238 238"
         fill="none"
       >
@@ -106,7 +106,7 @@ const pinGroups: PinGroup[] = [
     bgSvg: (
       <svg
         className="absolute"
-        style={{ left: "387px", top: "440px", width: "128px", height: "112px" }}
+        style={{ left: "375px", top: "447px", width: "128px", height: "112px" }}
         viewBox="0 0 128 112"
         fill="none"
       >
@@ -129,7 +129,7 @@ const pinGroups: PinGroup[] = [
     bgSvg: (
       <svg
         className="absolute"
-        style={{ left: "600px", top: "213px", width: "247px", height: "247px" }}
+        style={{ left: "593px", top: "295px", width: "247px", height: "247px" }}
         viewBox="0 0 247 247"
         fill="none"
       >
@@ -149,7 +149,7 @@ const pinGroups: PinGroup[] = [
     bgSvg: (
       <svg
         className="absolute"
-        style={{ left: "740px", top: "212px", width: "250px", height: "250px" }}
+        style={{ left: "730px", top: "298px", width: "250px", height: "250px" }}
         viewBox="0 0 250 250"
         fill="none"
       >
@@ -163,13 +163,13 @@ const pinGroups: PinGroup[] = [
   },
   // Sweden
   {
-    x: 777,
-    y: 110,
+    x: 880,
+    y: 80,
     country: "se",
     bgSvg: (
       <svg
         className="absolute"
-        style={{ left: "695px", top: "0px", width: "250px", height: "250px" }}
+        style={{ left: "840px", top: "110px", width: "250px", height: "250px" }}
         viewBox="0 0 250 250"
         fill="none"
       >
@@ -189,7 +189,7 @@ const pinGroups: PinGroup[] = [
     bgSvg: (
       <svg
         className="absolute"
-        style={{ left: "842px", top: "276px", width: "221px", height: "221px" }}
+        style={{ left: "850px", top: "350px", width: "221px", height: "221px" }}
         viewBox="0 0 221 221"
         fill="none"
       >
@@ -204,12 +204,12 @@ const pinGroups: PinGroup[] = [
   // France
   {
     x: 790,
-    y: 524,
+    y: 480,
     country: "fr",
     bgSvg: (
       <svg
         className="absolute"
-        style={{ left: "751px", top: "508px", width: "124px", height: "113px" }}
+        style={{ left: "730px", top: "525px", width: "124px", height: "113px" }}
         viewBox="0 0 124 113"
         fill="none"
       >
@@ -226,15 +226,15 @@ const pinGroups: PinGroup[] = [
   },
   // India
   {
-    x: 1151,
-    y: 335,
+    x: 1101,
+    y: 290,
     country: "in",
     bgSvg: (
       <svg
         className="absolute"
         style={{
-          left: "1108px",
-          top: "316px",
+          left: "1090px",
+          top: "330px",
           width: "134px",
           height: "133px",
         }}
@@ -255,16 +255,16 @@ const pinGroups: PinGroup[] = [
   // Singapore
   {
     x: 1267,
-    y: 514,
+    y: 485,
     country: "sg",
     bgSvg: (
       <svg
         className="absolute"
         style={{
-          left: "1145px",
-          top: "407px",
-          width: "215px",
-          height: "102px",
+          left: "1120px",
+          top: "485px",
+          width: "315px",
+          height: "180px",
         }}
         viewBox="0 0 143 187"
         fill="none"
@@ -280,14 +280,14 @@ const pinGroups: PinGroup[] = [
   // Hong Kong
   {
     x: 1347,
-    y: 369,
+    y: 330,
     country: "hk",
     bgSvg: (
       <svg
         className="absolute"
         style={{
-          left: "1262px",
-          top: "329px",
+          left: "1330px",
+          top: "390px",
           width: "195px",
           height: "195px",
         }}
@@ -304,17 +304,17 @@ const pinGroups: PinGroup[] = [
   },
   // South Korea
   {
-    x: 1500,
-    y: 305,
+    x: 1540,
+    y: 350,
     country: "kr",
     bgSvg: (
       <svg
         className="absolute"
         style={{
-          left: "1436px",
-          top: "223px",
-          width: "182px",
-          height: "260px",
+          left: "1406px",
+          top: "265px",
+          width: "200px",
+          height: "230px",
         }}
         viewBox="0 0 154 231"
         fill="none"
@@ -330,16 +330,16 @@ const pinGroups: PinGroup[] = [
   // Japan 1
   {
     x: 1515,
-    y: 486,
+    y: 470,
     country: "jp",
     bgSvg: (
       <svg
         className="absolute"
         style={{
-          left: "1459px",
-          top: "473px",
-          width: "168px",
-          height: "85px",
+          left: "1430px",
+          top: "520px",
+          width: "179px",
+          height: "100px",
         }}
         viewBox="0 0 92 91"
         fill="none"
@@ -354,16 +354,16 @@ const pinGroups: PinGroup[] = [
   // Japan 2
   {
     x: 1653,
-    y: 482,
+    y: 400,
     country: "jp",
     bgSvg: (
       <svg
         className="absolute"
         style={{
-          left: "1601px",
-          top: "370px",
+          left: "1571px",
+          top: "410px",
           width: "209px",
-          height: "125px",
+          height: "180px",
         }}
         viewBox="0 0 126 179"
         fill="none"
@@ -378,13 +378,13 @@ const pinGroups: PinGroup[] = [
   },
   // Brazil
   {
-    x: 509,
-    y: 730,
+    x: 529,
+    y: 660,
     country: "br",
     bgSvg: (
       <svg
         className="absolute"
-        style={{ left: "408px", top: "677px", width: "219px", height: "219px" }}
+        style={{ left: "420px", top: "720px", width: "300px", height: "250px" }}
         viewBox="0 0 219 219"
         fill="none"
       >
@@ -399,14 +399,14 @@ const pinGroups: PinGroup[] = [
   // Australia
   {
     x: 1541,
-    y: 744,
+    y: 710,
     country: "au",
     bgSvg: (
       <svg
         className="absolute"
         style={{
           left: "1505px",
-          top: "718px",
+          top: "760px",
           width: "119px",
           height: "113px",
         }}
