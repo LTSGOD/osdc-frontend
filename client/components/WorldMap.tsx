@@ -624,10 +624,10 @@ export default function WorldMap({
               <span
                 style={{
                   color: "#FFF",
-                  fontSize: "13px",
+                  fontSize: "10px",
                   fontWeight: "800",
-                  lineHeight: "13px",
-                  letterSpacing: "-0.39px",
+                  lineHeight: "10px",
+                  letterSpacing: "-0.3px",
                   fontFamily:
                     "Outfit, -apple-system, Roboto, Helvetica, sans-serif",
                 }}
