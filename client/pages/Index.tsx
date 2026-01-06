@@ -91,7 +91,19 @@ export default function Index() {
 
         {/* World Map Area */}
         <div className="flex-1 p-6 overflow-hidden">
-          <div className="h-full bg-white rounded border border-gray-200 shadow-lg">
+          <div className="h-full bg-white rounded border border-gray-200 shadow-lg relative">
+            {/* Navigation Buttons */}
+            <div className="absolute top-6 left-6 z-10 flex gap-3">
+              <button className="px-5 py-5 bg-white rounded-lg border-[1.25px] border-gray-400 text-gray-400 font-bold text-xl leading-5 hover:border-gray-600 hover:text-gray-600 transition-colors">
+                Base Committee
+              </button>
+              <button className="px-5 py-5 bg-white rounded-lg border-[1.25px] border-[#6C6E82] text-black font-bold text-xl leading-5 hover:bg-gray-50 transition-colors">
+                Overview
+              </button>
+              <button className="px-5 py-5 bg-white rounded-lg border-[1.25px] border-[#6C6E82] text-black font-bold text-xl leading-5 hover:bg-gray-50 transition-colors">
+                Overview
+              </button>
+            </div>
             <WorldMap />
           </div>
         </div>
