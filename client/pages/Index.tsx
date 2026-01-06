@@ -61,7 +61,7 @@ export default function Index() {
     fetch("/api/logs")
       .then((res) => {
         if (!res.ok) {
-           throw new Error(`HTTP error! status: ${res.status}`);
+          throw new Error(`HTTP error! status: ${res.status}`);
         }
         return res.json();
       })
@@ -104,7 +104,7 @@ export default function Index() {
       // const randomSingleShardTPS = Math.floor(
       //   randomTotalTPS * (0.3 + Math.random() * 0.1),
       // );
-       const randomLatency = parseFloat((Math.random() * 0.5 + 0.3).toFixed(6));
+      const randomLatency = parseFloat((Math.random() * 0.5 + 0.3).toFixed(6));
       const randomLeaderTime = "00.00";
       const randomCommitteeTime = "00.00";
 
@@ -112,15 +112,15 @@ export default function Index() {
       const totalTPS = currentData.totalTPS;
       const singleShardTPS = currentData.averageSingleShardTPS;
       const crossShardLatency = currentData.averageCrossShardTransactionLatency;
-      
+
       // Accumulate Total Tx if needed or assume it's cumulative in real app, but here we just sum TPS roughly
-       currentTotalTx += totalTPS; 
+      currentTotalTx += totalTPS;
 
       setMetrics({
         totalTPS: totalTPS,
         avgSingleShardTPS: singleShardTPS,
         avgCrossShardLatency: crossShardLatency,
-        totalTransactions: currentTotalTx, 
+        totalTransactions: currentTotalTx,
         leaderChangeTime: randomLeaderTime, // Still random as requested only specific fields
         committeeChangeTime: randomCommitteeTime, // Still random
         blockHeight: currentIndex, // Using index as block height simulation
@@ -130,7 +130,10 @@ export default function Index() {
       if (chartsData.tps.length > currentIndex) {
         const tpsPoint = chartsData.tps[currentIndex];
         setTpsData((prev) => {
-          const newData = [...prev, { time: tpsPoint.x.toString(), value: tpsPoint.y }];
+          const newData = [
+            ...prev,
+            { time: tpsPoint.x.toString(), value: tpsPoint.y },
+          ];
           return newData.slice(-50); // Keep last 50 points
         });
       }
@@ -138,7 +141,10 @@ export default function Index() {
       if (chartsData.latency.length > currentIndex) {
         const latencyPoint = chartsData.latency[currentIndex];
         setLatencyData((prev) => {
-          const newData = [...prev, { time: latencyPoint.x.toString(), value: latencyPoint.y }];
+          const newData = [
+            ...prev,
+            { time: latencyPoint.x.toString(), value: latencyPoint.y },
+          ];
           return newData.slice(-50); // Keep last 50 points
         });
       }

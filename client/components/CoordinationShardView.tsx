@@ -11,85 +11,217 @@ interface NodeData {
 const ShardNode: React.FC<{ node: NodeData }> = ({ node }) => {
   const renderPieSegment = (type: string) => {
     const fillColor = "#989FAF";
-    
+
     const pieSegments: Record<string, JSX.Element> = {
       "full-pie": (
-        <svg width="60" height="60" viewBox="0 0 48 48" fill="none" style={{ position: "absolute", left: "-6px", top: "-6px" }}>
-          <path d="M54 24C54 40.5685 40.5685 54 24 54C7.43146 54 -6 40.5685 -6 24C-6 12.5335 0.433016 2.56956 9.88683 -2.47968L24 24V-6C40.5685 -6 54 7.43146 54 24Z" fill={fillColor}/>
+        <svg
+          width="60"
+          height="60"
+          viewBox="0 0 48 48"
+          fill="none"
+          style={{ position: "absolute", left: "-6px", top: "-6px" }}
+        >
+          <path
+            d="M54 24C54 40.5685 40.5685 54 24 54C7.43146 54 -6 40.5685 -6 24C-6 12.5335 0.433016 2.56956 9.88683 -2.47968L24 24V-6C40.5685 -6 54 7.43146 54 24Z"
+            fill={fillColor}
+          />
         </svg>
       ),
-      "quarter": (
-        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" style={{ position: "absolute", right: "-6.155px", top: "-6.076px" }}>
-          <path d="M0 -6.07617C16.5685 -6.07617 30 7.35529 30 23.9238H0V-6.07617Z" fill={fillColor}/>
+      quarter: (
+        <svg
+          width="30"
+          height="30"
+          viewBox="0 0 24 24"
+          fill="none"
+          style={{ position: "absolute", right: "-6.155px", top: "-6.076px" }}
+        >
+          <path
+            d="M0 -6.07617C16.5685 -6.07617 30 7.35529 30 23.9238H0V-6.07617Z"
+            fill={fillColor}
+          />
         </svg>
       ),
       "half-pie": (
-        <svg width="60" height="60" viewBox="0 0 48 48" fill="none" style={{ position: "absolute", left: "-6px", top: "-6px" }}>
-          <path d="M54 24C54 40.5685 40.5685 54 24 54C7.43146 54 -6 40.5685 -6 24H24V-6C40.5685 -6 54 7.43146 54 24Z" fill={fillColor}/>
+        <svg
+          width="60"
+          height="60"
+          viewBox="0 0 48 48"
+          fill="none"
+          style={{ position: "absolute", left: "-6px", top: "-6px" }}
+        >
+          <path
+            d="M54 24C54 40.5685 40.5685 54 24 54C7.43146 54 -6 40.5685 -6 24H24V-6C40.5685 -6 54 7.43146 54 24Z"
+            fill={fillColor}
+          />
         </svg>
       ),
       "right-half": (
-        <svg width="30" height="60" viewBox="0 0 24 48" fill="none" style={{ position: "absolute", right: "-6px", top: "-6px" }}>
-          <path d="M30 24C30 40.5685 16.5685 54 0 54V-6C16.5685 -6 30 7.43146 30 24Z" fill={fillColor}/>
+        <svg
+          width="30"
+          height="60"
+          viewBox="0 0 24 48"
+          fill="none"
+          style={{ position: "absolute", right: "-6px", top: "-6px" }}
+        >
+          <path
+            d="M30 24C30 40.5685 16.5685 54 0 54V-6C16.5685 -6 30 7.43146 30 24Z"
+            fill={fillColor}
+          />
         </svg>
       ),
       "small-wedge": (
-        <svg width="19.96" height="30" viewBox="0 0 20 25" fill="none" style={{ position: "absolute", right: "4.04px", top: "-5.973px" }}>
-          <path d="M0 -5.97266V24.0273L19.9605 1.63094C14.6576 -3.09844 7.66448 -5.97266 0 -5.97266Z" fill={fillColor}/>
+        <svg
+          width="19.96"
+          height="30"
+          viewBox="0 0 20 25"
+          fill="none"
+          style={{ position: "absolute", right: "4.04px", top: "-5.973px" }}
+        >
+          <path
+            d="M0 -5.97266V24.0273L19.9605 1.63094C14.6576 -3.09844 7.66448 -5.97266 0 -5.97266Z"
+            fill={fillColor}
+          />
         </svg>
       ),
       "wedge-down": (
-        <svg width="30" height="55.927" viewBox="0 0 24 48" fill="none" style={{ position: "absolute", right: "-6px", top: "-6.076px" }}>
-          <path d="M0 -6.07617C16.5685 -6.07617 30 7.35529 30 23.9238C30 34.9854 24.0133 44.6487 15.1033 49.8504L0 23.9238L0 -6.07617Z" fill={fillColor}/>
+        <svg
+          width="30"
+          height="55.927"
+          viewBox="0 0 24 48"
+          fill="none"
+          style={{ position: "absolute", right: "-6px", top: "-6.076px" }}
+        >
+          <path
+            d="M0 -6.07617C16.5685 -6.07617 30 7.35529 30 23.9238C30 34.9854 24.0133 44.6487 15.1033 49.8504L0 23.9238L0 -6.07617Z"
+            fill={fillColor}
+          />
         </svg>
       ),
       "wedge-down-2": (
-        <svg width="23.945" height="44.639" viewBox="0 0 24 45" fill="none" style={{ position: "absolute", right: "0.352px", top: "0" }}>
-          <path d="M0 0C13.2245 0 23.945 10.7205 23.945 23.945C23.945 32.774 19.1666 40.4869 12.0549 44.6387L0 23.945V0Z" fill={fillColor}/>
+        <svg
+          width="23.945"
+          height="44.639"
+          viewBox="0 0 24 45"
+          fill="none"
+          style={{ position: "absolute", right: "0.352px", top: "0" }}
+        >
+          <path
+            d="M0 0C13.2245 0 23.945 10.7205 23.945 23.945C23.945 32.774 19.1666 40.4869 12.0549 44.6387L0 23.945V0Z"
+            fill={fillColor}
+          />
         </svg>
       ),
       "half-pie-simple": (
-        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" style={{ position: "absolute", left: "0", top: "0" }}>
-          <path d="M48 24C48 37.2548 37.2548 48 24 48C10.7452 48 0 37.2548 0 24H24V0C37.2548 0 48 10.7452 48 24Z" fill={fillColor}/>
+        <svg
+          width="48"
+          height="48"
+          viewBox="0 0 48 48"
+          fill="none"
+          style={{ position: "absolute", left: "0", top: "0" }}
+        >
+          <path
+            d="M48 24C48 37.2548 37.2548 48 24 48C10.7452 48 0 37.2548 0 24H24V0C37.2548 0 48 10.7452 48 24Z"
+            fill={fillColor}
+          />
         </svg>
       ),
       "quarter-simple": (
-        <svg width="23.924" height="23.924" viewBox="0 0 24 24" fill="none" style={{ position: "absolute", right: "-0.133px", top: "0" }}>
-          <path d="M0 0C13.2128 0 23.9238 10.7111 23.9238 23.9238H0V0Z" fill={fillColor}/>
+        <svg
+          width="23.924"
+          height="23.924"
+          viewBox="0 0 24 24"
+          fill="none"
+          style={{ position: "absolute", right: "-0.133px", top: "0" }}
+        >
+          <path
+            d="M0 0C13.2128 0 23.9238 10.7111 23.9238 23.9238H0V0Z"
+            fill={fillColor}
+          />
         </svg>
       ),
       "right-half-bottom": (
-        <svg width="30" height="60" viewBox="0 0 24 48" fill="none" style={{ position: "absolute", right: "-6px", bottom: "-6.049px" }}>
-          <path d="M30 24.0488C30 40.6174 16.5685 54.0488 0 54.0488V-5.95117C16.5685 -5.95117 30 7.48029 30 24.0488Z" fill={fillColor}/>
+        <svg
+          width="30"
+          height="60"
+          viewBox="0 0 24 48"
+          fill="none"
+          style={{ position: "absolute", right: "-6px", bottom: "-6.049px" }}
+        >
+          <path
+            d="M30 24.0488C30 40.6174 16.5685 54.0488 0 54.0488V-5.95117C16.5685 -5.95117 30 7.48029 30 24.0488Z"
+            fill={fillColor}
+          />
         </svg>
       ),
       "right-half-2": (
-        <svg width="30" height="60" viewBox="0 0 24 48" fill="none" style={{ position: "absolute", right: "-6.277px", top: "-6px" }}>
-          <path d="M30 24C30 40.5685 16.5685 54 0 54V-6C16.5685 -6 30 7.43146 30 24Z" fill={fillColor}/>
+        <svg
+          width="30"
+          height="60"
+          viewBox="0 0 24 48"
+          fill="none"
+          style={{ position: "absolute", right: "-6.277px", top: "-6px" }}
+        >
+          <path
+            d="M30 24C30 40.5685 16.5685 54 0 54V-6C16.5685 -6 30 7.43146 30 24Z"
+            fill={fillColor}
+          />
         </svg>
       ),
       "small-wedge-2": (
-        <svg width="19.96" height="30" viewBox="0 0 20 24" fill="none" style={{ position: "absolute", right: "4.04px", top: "-6.077px" }}>
-          <path d="M0 -6.07715V23.9229L19.9605 1.52645C14.6576 -3.20293 7.66448 -6.07715 0 -6.07715Z" fill={fillColor}/>
+        <svg
+          width="19.96"
+          height="30"
+          viewBox="0 0 20 24"
+          fill="none"
+          style={{ position: "absolute", right: "4.04px", top: "-6.077px" }}
+        >
+          <path
+            d="M0 -6.07715V23.9229L19.9605 1.52645C14.6576 -3.20293 7.66448 -6.07715 0 -6.07715Z"
+            fill={fillColor}
+          />
         </svg>
       ),
       "right-half-3": (
-        <svg width="30" height="60" viewBox="0 0 24 48" fill="none" style={{ position: "absolute", right: "-6px", bottom: "-6.002px" }}>
-          <path d="M30 24.002C30 40.5705 16.5685 54.002 0 54.002L0 -5.99805C16.5685 -5.99805 30 7.43341 30 24.002Z" fill={fillColor}/>
+        <svg
+          width="30"
+          height="60"
+          viewBox="0 0 24 48"
+          fill="none"
+          style={{ position: "absolute", right: "-6px", bottom: "-6.002px" }}
+        >
+          <path
+            d="M30 24.002C30 40.5705 16.5685 54.002 0 54.002L0 -5.99805C16.5685 -5.99805 30 7.43341 30 24.002Z"
+            fill={fillColor}
+          />
         </svg>
       ),
       "quarter-2": (
-        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" style={{ position: "absolute", right: "-6px", top: "-6px" }}>
-          <path d="M0 -6C16.5685 -6 30 7.43146 30 24H0V-6Z" fill={fillColor}/>
+        <svg
+          width="30"
+          height="30"
+          viewBox="0 0 24 24"
+          fill="none"
+          style={{ position: "absolute", right: "-6px", top: "-6px" }}
+        >
+          <path d="M0 -6C16.5685 -6 30 7.43146 30 24H0V-6Z" fill={fillColor} />
         </svg>
       ),
       "small-wedge-3": (
-        <svg width="19.96" height="30" viewBox="0 0 20 24" fill="none" style={{ position: "absolute", right: "4.04px", top: "-6px" }}>
-          <path d="M0 -6V24L19.9605 1.6036C14.6576 -3.12578 7.66448 -6 0 -6Z" fill={fillColor}/>
+        <svg
+          width="19.96"
+          height="30"
+          viewBox="0 0 20 24"
+          fill="none"
+          style={{ position: "absolute", right: "4.04px", top: "-6px" }}
+        >
+          <path
+            d="M0 -6V24L19.9605 1.6036C14.6576 -3.12578 7.66448 -6 0 -6Z"
+            fill={fillColor}
+          />
         </svg>
       ),
     };
-    
+
     return pieSegments[type] || null;
   };
 
@@ -178,12 +310,30 @@ const CoordinationShardView: React.FC = () => {
 
   const connections = [
     // Main SVG paths from Figma
-    { d: "M107.995 102.417L237.256 180.354V338.129M107.995 102.417L0.298462 182.547M107.995 102.417L237.256 0.785156L0.298462 37.4011", offset: { x: 1076, y: 132 } },
-    { d: "M106.498 226.054L343.017 263.463L216.31 158.478L106.498 226.054ZM106.498 226.054V82.4532L0.305725 0.395508", offset: { x: 970, y: 389 } },
-    { d: "M212.809 86.1226L371.085 0.439941M212.809 86.1226L79.5234 105.164L0.980301 213.458H155.686L212.809 86.1226Z", offset: { x: 705, y: 470 } },
-    { d: "M401.59 477.502L269.68 458.264L110.542 377.569M404.849 106.942L480.943 0.5H322.143L404.849 106.942ZM404.849 106.942L269.68 130.785M269.68 130.785L213.211 296.085L110.542 377.569M269.68 130.785L110.542 217.86V377.569M110.542 377.569L108.02 518.898L0.262512 452.423", offset: { x: 381, y: 97 } },
-    { d: "M236.436 37.5672L126.941 106.653M126.941 106.653L0.5 1.06885V186.167M126.941 106.653L0.5 186.167M0.5 186.167L236.436 348.29M126.941 419.242L0.5 523.49V348.29L126.941 419.242Z", offset: { x: 253, y: 127 } },
-    { d: "M55.4803 164.001L0.878784 1.04883L160.418 88.0704L55.4803 164.001Z", offset: { x: 687, y: 151 } },
+    {
+      d: "M107.995 102.417L237.256 180.354V338.129M107.995 102.417L0.298462 182.547M107.995 102.417L237.256 0.785156L0.298462 37.4011",
+      offset: { x: 1076, y: 132 },
+    },
+    {
+      d: "M106.498 226.054L343.017 263.463L216.31 158.478L106.498 226.054ZM106.498 226.054V82.4532L0.305725 0.395508",
+      offset: { x: 970, y: 389 },
+    },
+    {
+      d: "M212.809 86.1226L371.085 0.439941M212.809 86.1226L79.5234 105.164L0.980301 213.458H155.686L212.809 86.1226Z",
+      offset: { x: 705, y: 470 },
+    },
+    {
+      d: "M401.59 477.502L269.68 458.264L110.542 377.569M404.849 106.942L480.943 0.5H322.143L404.849 106.942ZM404.849 106.942L269.68 130.785M269.68 130.785L213.211 296.085L110.542 377.569M269.68 130.785L110.542 217.86V377.569M110.542 377.569L108.02 518.898L0.262512 452.423",
+      offset: { x: 381, y: 97 },
+    },
+    {
+      d: "M236.436 37.5672L126.941 106.653M126.941 106.653L0.5 1.06885V186.167M126.941 106.653L0.5 186.167M0.5 186.167L236.436 348.29M126.941 419.242L0.5 523.49V348.29L126.941 419.242Z",
+      offset: { x: 253, y: 127 },
+    },
+    {
+      d: "M55.4803 164.001L0.878784 1.04883L160.418 88.0704L55.4803 164.001Z",
+      offset: { x: 687, y: 151 },
+    },
   ];
 
   return (
