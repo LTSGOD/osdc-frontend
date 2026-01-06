@@ -94,13 +94,13 @@ export default function Index() {
       activeTab={activeTab}
       onTabChange={setActiveTab}
     >
-      {activeTab === 1 && <WorldMap />}
+      {activeTab === 1 && <WorldMap showShardNumbers={true} />}
       {activeTab === 2 && (
         <div className="flex items-center justify-center h-full text-2xl text-gray-400 font-bold">
           Screen 2
         </div>
       )}
-      {activeTab === 3 && <WorldMap />}
+      {activeTab === 3 && <WorldMap showShardNumbers={false} />}
     </Dashboard>
   );
 }
