@@ -301,14 +301,13 @@ const CoordinationShardView: React.FC = () => {
           position: "absolute",
           top: "0",
           right: "0",
-          width: "293px",
-          height: "84px",
-          padding: "16px 24px",
+          width: "auto",
+          padding: "20px 28px",
           backgroundColor: "#FFF",
           border: "1px solid #000",
           display: "flex",
           flexDirection: "column",
-          gap: "8px",
+          gap: "14px",
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
