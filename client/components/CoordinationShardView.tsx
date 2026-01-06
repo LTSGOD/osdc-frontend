@@ -101,6 +101,7 @@ const ShardNode: React.FC<{ node: NodeData }> = ({ node }) => {
         top: `${node.y}px`,
         width: "48px",
         height: "48px",
+        overflow: "hidden",
       }}
     >
       <div
@@ -115,6 +116,7 @@ const ShardNode: React.FC<{ node: NodeData }> = ({ node }) => {
           borderRadius: "1000px",
           backgroundColor: "#000",
           position: "relative",
+          overflow: "hidden",
         }}
       >
         {renderPieSegment(node.pieType)}
