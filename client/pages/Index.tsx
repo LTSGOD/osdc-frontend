@@ -1,12 +1,10 @@
 import WorldMap from "@/components/WorldMap";
-import TPSChart from "@/components/TPSChart";
-import ConfirmationTimeChart from "@/components/ConfirmationTimeChart";
 
 export default function Index() {
   return (
     <div className="min-h-screen bg-gray-50 flex">
       {/* Left Sidebar - Statistics */}
-      <div className="w-56 bg-white border-r border-black p-6 overflow-y-auto">
+      <div className="w-64 bg-white border-r border-gray-200 p-6 overflow-y-auto">
         <div className="space-y-8">
           {/* Total TPS */}
           <div>
@@ -69,31 +67,31 @@ export default function Index() {
       {/* Right Content Area */}
       <div className="flex-1 flex flex-col">
         {/* Top Charts Area */}
-        <div className="grid grid-cols-2 border-b border-black h-72">
+        <div className="grid grid-cols-2 gap-4 p-6 border-b border-gray-200">
           {/* Transaction Per Second Chart */}
-          <div className="bg-white border-r border-black p-8 flex flex-col justify-center items-center gap-3">
-            <h3 className="text-[28px] font-medium text-[#6C6E82] leading-7 whitespace-nowrap">
+          <div className="bg-white rounded border border-gray-200 p-4">
+            <h3 className="text-sm font-medium text-gray-700 mb-3">
               Transaction Per Second
             </h3>
-            <div className="w-full flex justify-center">
-              <TPSChart />
+            <div className="h-24 bg-gradient-to-r from-cyan-100 to-blue-100 rounded flex items-center justify-center text-gray-400 text-sm">
+              [Chart Placeholder]
             </div>
           </div>
 
           {/* Transaction Confirmation Time Chart */}
-          <div className="bg-white p-8 flex flex-col justify-center items-center gap-3">
-            <h3 className="text-[28px] font-medium text-[#6C6E82] leading-7 whitespace-nowrap">
+          <div className="bg-white rounded border border-gray-200 p-4">
+            <h3 className="text-sm font-medium text-gray-700 mb-3">
               Transaction Confirmation Time
             </h3>
-            <div className="w-full flex justify-center">
-              <ConfirmationTimeChart />
+            <div className="h-24 bg-gradient-to-r from-cyan-100 to-blue-100 rounded flex items-center justify-center text-gray-400 text-sm">
+              [Chart Placeholder]
             </div>
           </div>
         </div>
 
         {/* World Map Area */}
         <div className="flex-1 p-6 overflow-hidden">
-          <div className="h-full bg-white border border-black">
+          <div className="h-full bg-white rounded border border-gray-200 shadow-lg">
             <WorldMap />
           </div>
         </div>

@@ -209,7 +209,7 @@ const flagComponents: Record<string, React.FC> = {
       </svg>
       <svg
         className="absolute"
-        style={{ left: "8px", top: "8px", width: "13px", height: "13px" }}
+        style={{ left: "10px", top: "9px", width: "13px", height: "13px" }}
         viewBox="0 0 19 19"
         fill="none"
       >
