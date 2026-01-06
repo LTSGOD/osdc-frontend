@@ -1,0 +1,189 @@
+.dashboard-container {
+  display: grid;
+  grid-template-columns: 354px 1fr; /* Frame 38 Width: 354px */
+  height: 100vh; /* Total Height: 1080px 대응 */
+  background-color: #f5f5f5;
+  font-family: 'Inter', sans-serif;
+  overflow: hidden;
+}
+
+/* 좌측 사이드바 */
+.sidebar {
+  background-color: #ffffff;
+  /* border-right는 개별 아이템에 적용 */
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+/* 공통 스타일 */
+.metric-item {
+  width: 100%;
+  box-sizing: border-box;
+  border-right: 1px solid #b0b0b0;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* 1. Total TPS */
+.sidebar > .metric-item:nth-child(1) {
+  height: 129px;
+}
+
+/* 2. Average Single Shard TPS */
+.sidebar > .metric-item:nth-child(2) {
+  height: 129px;
+}
+
+/* 3. Average Cross Shard Transaction Latency */
+.sidebar > .metric-item:nth-child(3) {
+  height: 161px;
+}
+
+/* 4. Total Transactions */
+.sidebar > .metric-item:nth-child(4) {
+  height: 100px;
+  border-bottom: 1px solid #b0b0b0;
+}
+
+/* 5. Leader Change Time */
+.sidebar > .metric-item:nth-child(5) {
+  height: 100px;
+}
+
+/* 6. Committee Change Time */
+.sidebar > .metric-item:nth-child(6) {
+  height: 100px;
+  border-bottom: 1px solid #b0b0b0;
+}
+
+.metric-label {
+  color: #6b7280;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.metric-value {
+  color: #003b95;
+  font-size: 36px;
+  font-weight: 700;
+  font-family: 'Inter', sans-serif;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+}
+
+.log-container {
+  height: 332px; /* Spec 6 */
+  flex: none;
+  background-color: #ffffff;
+  padding: 4px 8px; /* Spec 6 Padding */
+  overflow-y: auto;
+  font-family: monospace;
+  font-size: 11px;
+  color: #333;
+  /* border-top은 위쪽 아이템의 border-bottom으로 대체 */
+  border-right: 1px solid #b0b0b0; /* 사이드바 우측 경계 */
+  line-height: 1.4;
+}
+
+.log-header {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.log-entry {
+  margin-bottom: 2px;
+  word-break: break-all;
+  line-height: 1.2;
+}
+
+/* 우측 메인 영역 */
+.main-content {
+  display: grid;
+  grid-template-rows: 297px 1fr; /* Frame 39 Height: 297px */
+  height: 100%;
+  overflow: hidden;
+}
+
+/* 상단 차트 영역 */
+.charts-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 0;
+  background-color: #ffffff;
+  border-bottom: 1px solid #b0b0b0;
+}
+
+.chart-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.chart-container:first-child {
+  border-right: 1px solid #b0b0b0;
+}
+
+.chart-title {
+  font-size: 32px;
+  color: #757575;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+/* 하단 지도 영역 */
+.map-section {
+  position: relative;
+  background-color: #eef2f5;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #b0b0b0; /* Frame 42 Border Width: 1px */
+  /* Frame 42 Height: 783px (자동으로 남은 공간 차지) */
+  overflow: hidden;
+}
+
+.map-controls {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 10;
+  display: flex;
+  gap: 10px;
+}
+
+.map-legend {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
