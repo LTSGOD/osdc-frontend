@@ -274,17 +274,6 @@ const Dashboard: React.FC<DashboardProps> = ({
             </div>
           </div>
 
-          <div className="map-legend">
-            <div className="legend-item">
-              <span className="dot" style={{ background: "#d500f9" }}></span>
-              selective local snapshot
-            </div>
-            <div className="legend-item">
-              <span className="dot" style={{ background: "#2962ff" }}></span>
-              global snapshot
-            </div>
-          </div>
-
           {/* 실제 지도가 렌더링 될 영역 */}
           <div style={{ width: "100%", height: "100%", position: "relative" }}>
             {children}
