@@ -69,27 +69,31 @@ export default function Index() {
       {/* Right Content Area */}
       <div className="flex-1 flex flex-col">
         {/* Top Charts Area */}
-        <div className="grid grid-cols-2 gap-4 p-6 border-b border-gray-200">
+        <div className="grid grid-cols-2 border-b border-black h-[310px]">
           {/* Transaction Per Second Chart */}
-          <div className="bg-white border-r border-b border-black p-10 flex flex-col justify-center items-center gap-4">
-            <h3 className="text-[28px] font-medium text-[#6C6E82] leading-7">
+          <div className="bg-white border-r border-black p-8 flex flex-col justify-center items-center gap-3">
+            <h3 className="text-[28px] font-medium text-[#6C6E82] leading-7 whitespace-nowrap">
               Transaction Per Second
             </h3>
-            <TPSChart />
+            <div className="w-full flex justify-center">
+              <TPSChart />
+            </div>
           </div>
 
           {/* Transaction Confirmation Time Chart */}
-          <div className="bg-white border-r border-b border-black p-10 flex flex-col justify-center items-center gap-4">
-            <h3 className="text-[28px] font-medium text-[#6C6E82] leading-7">
+          <div className="bg-white p-8 flex flex-col justify-center items-center gap-3">
+            <h3 className="text-[28px] font-medium text-[#6C6E82] leading-7 whitespace-nowrap">
               Transaction Confirmation Time
             </h3>
-            <ConfirmationTimeChart />
+            <div className="w-full flex justify-center">
+              <ConfirmationTimeChart />
+            </div>
           </div>
         </div>
 
         {/* World Map Area */}
         <div className="flex-1 p-6 overflow-hidden">
-          <div className="h-full bg-white rounded border border-gray-200 shadow-lg">
+          <div className="h-full bg-white border border-black">
             <WorldMap />
           </div>
         </div>
