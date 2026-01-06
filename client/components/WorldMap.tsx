@@ -428,11 +428,17 @@ const pinGroups: PinGroup[] = [
 
 export default function WorldMap() {
   return (
-    <div className="relative w-full min-h-screen bg-[#EEEEEE] flex items-center justify-center p-8">
-      {/* Fixed size container matching Figma: 1850x1000 */}
+    <div className="relative w-full h-full bg-[#EEEEEE] flex items-center justify-center p-4">
+      {/* Responsive container matching Figma aspect ratio 1850:1000 = 1.85:1 */}
       <div
         className="relative bg-[#EEEEEE] overflow-visible"
-        style={{ width: "1850px", height: "1000px" }}
+        style={{
+          width: "100%",
+          height: "100%",
+          maxWidth: "1850px",
+          maxHeight: "1000px",
+          aspectRatio: "1850 / 1000"
+        }}
       >
         {/* Background continent shapes */}
         <div className="absolute inset-0 pointer-events-none">
