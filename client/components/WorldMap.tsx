@@ -140,23 +140,16 @@ export default function WorldMap() {
 
         {/* Location pins with grouped semi-transparent backgrounds */}
         {pinGroups.map((group, groupIndex) => (
-          <div
-            key={groupIndex}
-            className="absolute"
-            style={{
-              left: `${group.x}px`,
-              top: `${group.y}px`,
-              width: `${group.bgWidth}px`,
-              height: `${group.bgHeight}px`,
-              position: 'relative',
-            }}
-          >
+          <div key={groupIndex}>
             {/* Semi-transparent rounded background */}
             <div
-              className="absolute inset-0 rounded-[20px]"
+              className="absolute rounded-[20px]"
               style={{
-                backgroundColor: 'rgba(0, 0, 0, 0.25)',
-                zIndex: -10,
+                left: `${group.x}px`,
+                top: `${group.y}px`,
+                width: `${group.bgWidth}px`,
+                height: `${group.bgHeight}px`,
+                backgroundColor: 'rgba(0, 0, 0, 0.3)',
               }}
             />
             
