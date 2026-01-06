@@ -8,37 +8,49 @@ export default function Index() {
         <div className="space-y-8">
           {/* Total TPS */}
           <div>
-            <div className="text-sm font-medium text-gray-600 mb-2">Total TPS</div>
+            <div className="text-sm font-medium text-gray-600 mb-2">
+              Total TPS
+            </div>
             <div className="text-4xl font-bold text-blue-900">000,000</div>
           </div>
 
           {/* Average Single Shard TPS */}
           <div>
-            <div className="text-sm font-medium text-gray-600 mb-2">Average Single Shard TPS</div>
+            <div className="text-sm font-medium text-gray-600 mb-2">
+              Average Single Shard TPS
+            </div>
             <div className="text-4xl font-bold text-blue-900">000,000</div>
           </div>
 
           {/* Average Cross Shard Latency */}
           <div>
-            <div className="text-sm font-medium text-gray-600 mb-2">Average Cross Shard Latency</div>
+            <div className="text-sm font-medium text-gray-600 mb-2">
+              Average Cross Shard Latency
+            </div>
             <div className="text-4xl font-bold text-blue-900">00.000000</div>
           </div>
 
           {/* Total Transactions */}
           <div>
-            <div className="text-sm font-medium text-gray-600 mb-2">Total Transactions</div>
+            <div className="text-sm font-medium text-gray-600 mb-2">
+              Total Transactions
+            </div>
             <div className="text-4xl font-bold text-blue-900">000,000,000</div>
           </div>
 
           {/* Leader Change Time */}
           <div>
-            <div className="text-sm font-medium text-gray-600 mb-2">Leader Change Time</div>
+            <div className="text-sm font-medium text-gray-600 mb-2">
+              Leader Change Time
+            </div>
             <div className="text-4xl font-bold text-blue-900">00.00</div>
           </div>
 
           {/* Committee Change Time */}
           <div>
-            <div className="text-sm font-medium text-gray-600 mb-2">Committee Change Time</div>
+            <div className="text-sm font-medium text-gray-600 mb-2">
+              Committee Change Time
+            </div>
             <div className="text-4xl font-bold text-blue-900">00.00</div>
           </div>
 
@@ -58,7 +70,9 @@ export default function Index() {
         <div className="grid grid-cols-2 gap-4 p-6 border-b border-gray-200">
           {/* Transaction Per Second Chart */}
           <div className="bg-white rounded border border-gray-200 p-4">
-            <h3 className="text-sm font-medium text-gray-700 mb-3">Transaction Per Second</h3>
+            <h3 className="text-sm font-medium text-gray-700 mb-3">
+              Transaction Per Second
+            </h3>
             <div className="h-24 bg-gradient-to-r from-cyan-100 to-blue-100 rounded flex items-center justify-center text-gray-400 text-sm">
               [Chart Placeholder]
             </div>
@@ -66,7 +80,9 @@ export default function Index() {
 
           {/* Transaction Confirmation Time Chart */}
           <div className="bg-white rounded border border-gray-200 p-4">
-            <h3 className="text-sm font-medium text-gray-700 mb-3">Transaction Confirmation Time</h3>
+            <h3 className="text-sm font-medium text-gray-700 mb-3">
+              Transaction Confirmation Time
+            </h3>
             <div className="h-24 bg-gradient-to-r from-cyan-100 to-blue-100 rounded flex items-center justify-center text-gray-400 text-sm">
               [Chart Placeholder]
             </div>
