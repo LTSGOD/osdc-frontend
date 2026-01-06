@@ -8,6 +8,10 @@ interface PinGroup {
   country: string;
 }
 
+interface WorldMapProps {
+  showShardNumbers?: boolean;
+}
+
 const pinGroups: PinGroup[] = [
   // Canada
   {
