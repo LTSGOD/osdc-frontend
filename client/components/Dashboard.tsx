@@ -133,6 +133,147 @@ const Dashboard: React.FC<DashboardProps> = ({
             </button>
           </div>
 
+          {/* Legend Box - Right Side */}
+          <div
+            style={{
+              position: "absolute",
+              top: "24px",
+              right: "24px",
+              zIndex: 10,
+              padding: "16px",
+              backgroundColor: "#E9E9EA",
+              border: "1px solid #000",
+              display: "flex",
+              flexDirection: "column",
+              gap: "20px",
+            }}
+          >
+            {/* Shard Area */}
+            <div style={{ display: "flex", gap: "36px" }}>
+              {/* Shard Item */}
+              <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <div
+                  style={{
+                    width: "26px",
+                    height: "26px",
+                    borderRadius: "1000px",
+                    backgroundColor: "#000",
+                  }}
+                ></div>
+                <div
+                  style={{
+                    color: "#000",
+                    fontFamily: "Inter, -apple-system, Roboto, Helvetica, sans-serif",
+                    fontSize: "20px",
+                    fontWeight: "600",
+                    lineHeight: "20px",
+                  }}
+                >
+                  shard
+                </div>
+              </div>
+
+              {/* Backup Item */}
+              <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <div
+                  style={{
+                    width: "26px",
+                    height: "26px",
+                    borderRadius: "1000px",
+                    backgroundColor: "#FFF",
+                    border: "1.5px solid #000",
+                  }}
+                ></div>
+                <div
+                  style={{
+                    color: "#000",
+                    fontFamily: "Inter, -apple-system, Roboto, Helvetica, sans-serif",
+                    fontSize: "20px",
+                    fontWeight: "600",
+                    lineHeight: "20px",
+                  }}
+                >
+                  backup
+                </div>
+              </div>
+            </div>
+
+            {/* Message Area */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+              {/* Vote Message */}
+              <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <svg
+                  width="8"
+                  height="8"
+                  viewBox="0 0 8 8"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle cx="4" cy="4" r="4" fill="#FF00FF" />
+                </svg>
+                <div
+                  style={{
+                    color: "#000",
+                    fontFamily: "Inter, -apple-system, Roboto, Helvetica, sans-serif",
+                    fontSize: "20px",
+                    fontWeight: "600",
+                    lineHeight: "20px",
+                  }}
+                >
+                  vote message
+                </div>
+              </div>
+
+              {/* Shard Message */}
+              <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <svg
+                  width="8"
+                  height="8"
+                  viewBox="0 0 8 8"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle cx="4" cy="4" r="4" fill="#0000FF" />
+                </svg>
+                <div
+                  style={{
+                    color: "#000",
+                    fontFamily: "Inter, -apple-system, Roboto, Helvetica, sans-serif",
+                    fontSize: "20px",
+                    fontWeight: "600",
+                    lineHeight: "20px",
+                  }}
+                >
+                  shard message
+                </div>
+              </div>
+
+              {/* Committee Change Message */}
+              <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <svg
+                  width="8"
+                  height="8"
+                  viewBox="0 0 8 8"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle cx="4" cy="4" r="4" fill="#FF8800" />
+                </svg>
+                <div
+                  style={{
+                    color: "#000",
+                    fontFamily: "Inter, -apple-system, Roboto, Helvetica, sans-serif",
+                    fontSize: "17px",
+                    fontWeight: "600",
+                    lineHeight: "20px",
+                  }}
+                >
+                  committee change message
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div className="map-legend">
             <div className="legend-item">
               <span className="dot" style={{ background: "#d500f9" }}></span>
