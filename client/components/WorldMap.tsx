@@ -17,11 +17,18 @@ const pinGroups: PinGroup[] = [
     bgSvg: (
       <svg
         className="absolute"
-        style={{ left: '286px', top: '230px', width: '192px', height: '110px' }}
+        style={{ left: "286px", top: "230px", width: "192px", height: "110px" }}
         viewBox="0 0 192 110"
         fill="none"
       >
-        <rect y="21" width="192" height="89" rx="20" fill="black" fillOpacity="0.15" />
+        <rect
+          y="21"
+          width="192"
+          height="89"
+          rx="20"
+          fill="black"
+          fillOpacity="0.15"
+        />
       </svg>
     ),
   },
@@ -33,11 +40,18 @@ const pinGroups: PinGroup[] = [
     bgSvg: (
       <svg
         className="absolute"
-        style={{ left: '203px', top: '338px', width: '132px', height: '117px' }}
+        style={{ left: "203px", top: "338px", width: "132px", height: "117px" }}
         viewBox="0 0 132 117"
         fill="none"
       >
-        <rect y="12" width="132" height="105" rx="20" fill="black" fillOpacity="0.15" />
+        <rect
+          y="12"
+          width="132"
+          height="105"
+          rx="20"
+          fill="black"
+          fillOpacity="0.15"
+        />
       </svg>
     ),
   },
@@ -49,11 +63,18 @@ const pinGroups: PinGroup[] = [
     bgSvg: (
       <svg
         className="absolute"
-        style={{ left: '366px', top: '325px', width: '247px', height: '111px' }}
+        style={{ left: "366px", top: "325px", width: "247px", height: "111px" }}
         viewBox="0 0 247 111"
         fill="none"
       >
-        <rect y="37" width="247" height="74" rx="20" fill="black" fillOpacity="0.15" />
+        <rect
+          y="37"
+          width="247"
+          height="74"
+          rx="20"
+          fill="black"
+          fillOpacity="0.15"
+        />
       </svg>
     ),
   },
@@ -65,7 +86,7 @@ const pinGroups: PinGroup[] = [
     bgSvg: (
       <svg
         className="absolute"
-        style={{ left: '180px', top: '379px', width: '238px', height: '238px' }}
+        style={{ left: "180px", top: "379px", width: "238px", height: "238px" }}
         viewBox="0 0 238 238"
         fill="none"
       >
@@ -85,11 +106,18 @@ const pinGroups: PinGroup[] = [
     bgSvg: (
       <svg
         className="absolute"
-        style={{ left: '387px', top: '440px', width: '128px', height: '112px' }}
+        style={{ left: "387px", top: "440px", width: "128px", height: "112px" }}
         viewBox="0 0 128 112"
         fill="none"
       >
-        <rect y="12" width="128" height="100" rx="20" fill="black" fillOpacity="0.15" />
+        <rect
+          y="12"
+          width="128"
+          height="100"
+          rx="20"
+          fill="black"
+          fillOpacity="0.15"
+        />
       </svg>
     ),
   },
@@ -101,7 +129,7 @@ const pinGroups: PinGroup[] = [
     bgSvg: (
       <svg
         className="absolute"
-        style={{ left: '600px', top: '213px', width: '247px', height: '247px' }}
+        style={{ left: "600px", top: "213px", width: "247px", height: "247px" }}
         viewBox="0 0 247 247"
         fill="none"
       >
@@ -121,7 +149,7 @@ const pinGroups: PinGroup[] = [
     bgSvg: (
       <svg
         className="absolute"
-        style={{ left: '740px', top: '212px', width: '250px', height: '250px' }}
+        style={{ left: "740px", top: "212px", width: "250px", height: "250px" }}
         viewBox="0 0 250 250"
         fill="none"
       >
@@ -141,7 +169,7 @@ const pinGroups: PinGroup[] = [
     bgSvg: (
       <svg
         className="absolute"
-        style={{ left: '875px', top: '136px', width: '250px', height: '250px' }}
+        style={{ left: "875px", top: "136px", width: "250px", height: "250px" }}
         viewBox="0 0 250 250"
         fill="none"
       >
@@ -161,7 +189,7 @@ const pinGroups: PinGroup[] = [
     bgSvg: (
       <svg
         className="absolute"
-        style={{ left: '842px', top: '276px', width: '221px', height: '221px' }}
+        style={{ left: "842px", top: "276px", width: "221px", height: "221px" }}
         viewBox="0 0 221 221"
         fill="none"
       >
@@ -181,11 +209,18 @@ const pinGroups: PinGroup[] = [
     bgSvg: (
       <svg
         className="absolute"
-        style={{ left: '751px', top: '508px', width: '124px', height: '113px' }}
+        style={{ left: "751px", top: "508px", width: "124px", height: "113px" }}
         viewBox="0 0 124 113"
         fill="none"
       >
-        <rect y="16" width="124" height="97" rx="20" fill="black" fillOpacity="0.15" />
+        <rect
+          y="16"
+          width="124"
+          height="97"
+          rx="20"
+          fill="black"
+          fillOpacity="0.15"
+        />
       </svg>
     ),
   },
@@ -197,11 +232,23 @@ const pinGroups: PinGroup[] = [
     bgSvg: (
       <svg
         className="absolute"
-        style={{ left: '1108px', top: '316px', width: '134px', height: '133px' }}
+        style={{
+          left: "1108px",
+          top: "316px",
+          width: "134px",
+          height: "133px",
+        }}
         viewBox="0 0 134 133"
         fill="none"
       >
-        <rect y="19" width="134" height="114" rx="20" fill="black" fillOpacity="0.15" />
+        <rect
+          y="19"
+          width="134"
+          height="114"
+          rx="20"
+          fill="black"
+          fillOpacity="0.15"
+        />
       </svg>
     ),
   },
@@ -213,7 +260,12 @@ const pinGroups: PinGroup[] = [
     bgSvg: (
       <svg
         className="absolute"
-        style={{ left: '1145px', top: '433px', width: '224px', height: '224px' }}
+        style={{
+          left: "1145px",
+          top: "433px",
+          width: "224px",
+          height: "224px",
+        }}
         viewBox="0 0 224 224"
         fill="none"
       >
@@ -233,7 +285,12 @@ const pinGroups: PinGroup[] = [
     bgSvg: (
       <svg
         className="absolute"
-        style={{ left: '1262px', top: '329px', width: '195px', height: '195px' }}
+        style={{
+          left: "1262px",
+          top: "329px",
+          width: "195px",
+          height: "195px",
+        }}
         viewBox="0 0 195 195"
         fill="none"
       >
@@ -253,7 +310,12 @@ const pinGroups: PinGroup[] = [
     bgSvg: (
       <svg
         className="absolute"
-        style={{ left: '1436px', top: '223px', width: '182px', height: '260px' }}
+        style={{
+          left: "1436px",
+          top: "223px",
+          width: "182px",
+          height: "260px",
+        }}
         viewBox="0 0 154 231"
         fill="none"
       >
@@ -273,7 +335,12 @@ const pinGroups: PinGroup[] = [
     bgSvg: (
       <svg
         className="absolute"
-        style={{ left: '1459px', top: '407px', width: '179px', height: '179px' }}
+        style={{
+          left: "1459px",
+          top: "407px",
+          width: "179px",
+          height: "179px",
+        }}
         viewBox="0 0 179 179"
         fill="none"
       >
@@ -293,11 +360,23 @@ const pinGroups: PinGroup[] = [
     bgSvg: (
       <svg
         className="absolute"
-        style={{ left: '1601px', top: '396px', width: '125px', height: '209px' }}
+        style={{
+          left: "1601px",
+          top: "396px",
+          width: "125px",
+          height: "209px",
+        }}
         viewBox="0 0 125 209"
         fill="none"
       >
-        <rect y="86" width="125" height="119" rx="20" fill="black" fillOpacity="0.15" />
+        <rect
+          y="86"
+          width="125"
+          height="119"
+          rx="20"
+          fill="black"
+          fillOpacity="0.15"
+        />
       </svg>
     ),
   },
@@ -309,7 +388,7 @@ const pinGroups: PinGroup[] = [
     bgSvg: (
       <svg
         className="absolute"
-        style={{ left: '408px', top: '677px', width: '219px', height: '219px' }}
+        style={{ left: "408px", top: "677px", width: "219px", height: "219px" }}
         viewBox="0 0 219 219"
         fill="none"
       >
@@ -329,11 +408,23 @@ const pinGroups: PinGroup[] = [
     bgSvg: (
       <svg
         className="absolute"
-        style={{ left: '1505px', top: '718px', width: '119px', height: '113px' }}
+        style={{
+          left: "1505px",
+          top: "718px",
+          width: "119px",
+          height: "113px",
+        }}
         viewBox="0 0 119 113"
         fill="none"
       >
-        <rect y="19" width="119" height="93" rx="20" fill="black" fillOpacity="0.15" />
+        <rect
+          y="19"
+          width="119"
+          height="93"
+          rx="20"
+          fill="black"
+          fillOpacity="0.15"
+        />
       </svg>
     ),
   },
@@ -343,16 +434,21 @@ export default function WorldMap() {
   return (
     <div className="relative w-full min-h-screen bg-[#EEEEEE] flex items-center justify-center p-8">
       {/* Fixed size container matching Figma: 1850x1000 */}
-      <div 
-        className="relative bg-[#EEEEEE] overflow-visible" 
-        style={{ width: '1850px', height: '1000px' }}
+      <div
+        className="relative bg-[#EEEEEE] overflow-visible"
+        style={{ width: "1850px", height: "1000px" }}
       >
         {/* Background continent shapes */}
         <div className="absolute inset-0 pointer-events-none">
           {/* Top left cluster - North America */}
           <svg
             className="absolute opacity-100"
-            style={{ left: '0px', top: '207px', width: '593px', height: '446px' }}
+            style={{
+              left: "0px",
+              top: "207px",
+              width: "593px",
+              height: "446px",
+            }}
             viewBox="0 0 565 439"
             fill="none"
           >
@@ -365,7 +461,12 @@ export default function WorldMap() {
           {/* Top center cluster */}
           <svg
             className="absolute opacity-100"
-            style={{ left: '587px', top: '44px', width: '191px', height: '254px' }}
+            style={{
+              left: "587px",
+              top: "44px",
+              width: "191px",
+              height: "254px",
+            }}
             viewBox="0 0 192 226"
             fill="none"
           >
@@ -378,7 +479,12 @@ export default function WorldMap() {
           {/* Large top right - Asia */}
           <svg
             className="absolute opacity-100"
-            style={{ left: '577px', top: '0px', width: '1260px', height: '870px' }}
+            style={{
+              left: "577px",
+              top: "0px",
+              width: "1260px",
+              height: "870px",
+            }}
             viewBox="0 0 1231 842"
             fill="none"
           >
@@ -391,7 +497,12 @@ export default function WorldMap() {
           {/* Bottom left cluster - South America */}
           <svg
             className="absolute opacity-100"
-            style={{ left: '292px', top: '627px', width: '344px', height: '379px' }}
+            style={{
+              left: "292px",
+              top: "627px",
+              width: "344px",
+              height: "379px",
+            }}
             viewBox="0 0 328 350"
             fill="none"
           >
@@ -404,7 +515,12 @@ export default function WorldMap() {
           {/* Bottom right - Australia */}
           <svg
             className="absolute opacity-100"
-            style={{ left: '1297px', top: '697px', width: '335px', height: '285px' }}
+            style={{
+              left: "1297px",
+              top: "697px",
+              width: "335px",
+              height: "285px",
+            }}
             viewBox="0 0 335 277"
             fill="none"
           >
@@ -417,7 +533,12 @@ export default function WorldMap() {
           {/* Right middle cluster */}
           <svg
             className="absolute opacity-100"
-            style={{ left: '1400px', top: '245px', width: '457px', height: '417px' }}
+            style={{
+              left: "1400px",
+              top: "245px",
+              width: "457px",
+              height: "417px",
+            }}
             viewBox="0 0 429 418"
             fill="none"
           >
@@ -431,9 +552,7 @@ export default function WorldMap() {
         {/* Individual marker backgrounds with unique SVG shapes */}
         <div className="absolute inset-0">
           {pinGroups.map((group, index) => (
-            <React.Fragment key={index}>
-              {group.bgSvg}
-            </React.Fragment>
+            <React.Fragment key={index}>{group.bgSvg}</React.Fragment>
           ))}
         </div>
 
