@@ -10,6 +10,7 @@ interface PinGroup {
 
 interface WorldMapProps {
   showShardNumbers?: boolean;
+  activeTab?: number;
 }
 
 // Coordinate constants for France & India base locations
@@ -448,7 +449,8 @@ const pinGroups: PinGroup[] = [
 
 export default function WorldMap({
   showShardNumbers = false,
-}: WorldMapProps = {}) {
+  activeTab = 1,
+}: WorldMapProps) {
   // Shard numbers to display around France (x:790, y:480)
   const franceShardNumbers = [
     // Row 1 (y: -30)
@@ -524,7 +526,7 @@ export default function WorldMap({
   const particlesRef = useRef<AnimParticle[]>([]);
 
   useEffect(() => {
-    if (!containerRef.current) return;
+    if (!containerRef.current || activeTab === 3) return;
 
     // 1. Setup Canvas Overlay
     const canvas = document.createElement("canvas");
@@ -619,7 +621,7 @@ export default function WorldMap({
         cancelAnimationFrame(animationFrameId);
         canvas.remove();
     };
-  }, []); // Run linearly on mount
+  }, [activeTab]); 
 
   return (
     <div className="relative w-full h-full bg-[#EEEEEE] flex items-center justify-center overflow-hidden">
