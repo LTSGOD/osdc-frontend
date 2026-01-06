@@ -126,162 +126,166 @@ const Dashboard: React.FC<DashboardProps> = ({
 
           {/* Legend Box - Right Side (only on screen 1) */}
           {activeTab === 1 && (
-          <div
-            style={{
-              position: "absolute",
-              top: "24px",
-              right: "24px",
-              zIndex: 10,
-              padding: "24px",
-              backgroundColor: "#E9E9EA",
-              border: "2px solid #000",
-              display: "flex",
-              flexDirection: "column",
-              gap: "28px",
-            }}
-          >
-            {/* Shard Area */}
-            <div style={{ display: "flex", gap: "48px" }}>
-              {/* Shard Item */}
-              <div
-                style={{ display: "flex", alignItems: "center", gap: "12px" }}
-              >
-                <div
-                  style={{
-                    width: "32px",
-                    height: "32px",
-                    borderRadius: "1000px",
-                    backgroundColor: "#000",
-                  }}
-                ></div>
-                <div
-                  style={{
-                    color: "#000",
-                    fontFamily:
-                      "Inter, -apple-system, Roboto, Helvetica, sans-serif",
-                    fontSize: "24px",
-                    fontWeight: "600",
-                    lineHeight: "24px",
-                  }}
-                >
-                  shard
-                </div>
-              </div>
-
-              {/* Backup Item */}
-              <div
-                style={{ display: "flex", alignItems: "center", gap: "12px" }}
-              >
-                <div
-                  style={{
-                    width: "32px",
-                    height: "32px",
-                    borderRadius: "1000px",
-                    backgroundColor: "#FFF",
-                    border: "2px solid #000",
-                  }}
-                ></div>
-                <div
-                  style={{
-                    color: "#000",
-                    fontFamily:
-                      "Inter, -apple-system, Roboto, Helvetica, sans-serif",
-                    fontSize: "24px",
-                    fontWeight: "600",
-                    lineHeight: "24px",
-                  }}
-                >
-                  backup
-                </div>
-              </div>
-            </div>
-
-            {/* Message Area */}
             <div
-              style={{ display: "flex", flexDirection: "column", gap: "12px" }}
+              style={{
+                position: "absolute",
+                top: "24px",
+                right: "24px",
+                zIndex: 10,
+                padding: "24px",
+                backgroundColor: "#E9E9EA",
+                border: "2px solid #000",
+                display: "flex",
+                flexDirection: "column",
+                gap: "28px",
+              }}
             >
-              {/* Vote Message */}
-              <div
-                style={{ display: "flex", alignItems: "center", gap: "12px" }}
-              >
-                <svg
-                  width="12"
-                  height="12"
-                  viewBox="0 0 8 8"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <circle cx="4" cy="4" r="4" fill="#FF00FF" />
-                </svg>
+              {/* Shard Area */}
+              <div style={{ display: "flex", gap: "48px" }}>
+                {/* Shard Item */}
                 <div
-                  style={{
-                    color: "#000",
-                    fontFamily:
-                      "Inter, -apple-system, Roboto, Helvetica, sans-serif",
-                    fontSize: "24px",
-                    fontWeight: "600",
-                    lineHeight: "24px",
-                  }}
+                  style={{ display: "flex", alignItems: "center", gap: "12px" }}
                 >
-                  vote message
+                  <div
+                    style={{
+                      width: "32px",
+                      height: "32px",
+                      borderRadius: "1000px",
+                      backgroundColor: "#000",
+                    }}
+                  ></div>
+                  <div
+                    style={{
+                      color: "#000",
+                      fontFamily:
+                        "Inter, -apple-system, Roboto, Helvetica, sans-serif",
+                      fontSize: "24px",
+                      fontWeight: "600",
+                      lineHeight: "24px",
+                    }}
+                  >
+                    shard
+                  </div>
+                </div>
+
+                {/* Backup Item */}
+                <div
+                  style={{ display: "flex", alignItems: "center", gap: "12px" }}
+                >
+                  <div
+                    style={{
+                      width: "32px",
+                      height: "32px",
+                      borderRadius: "1000px",
+                      backgroundColor: "#FFF",
+                      border: "2px solid #000",
+                    }}
+                  ></div>
+                  <div
+                    style={{
+                      color: "#000",
+                      fontFamily:
+                        "Inter, -apple-system, Roboto, Helvetica, sans-serif",
+                      fontSize: "24px",
+                      fontWeight: "600",
+                      lineHeight: "24px",
+                    }}
+                  >
+                    backup
+                  </div>
                 </div>
               </div>
 
-              {/* Shard Message */}
+              {/* Message Area */}
               <div
-                style={{ display: "flex", alignItems: "center", gap: "12px" }}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "12px",
+                }}
               >
-                <svg
-                  width="12"
-                  height="12"
-                  viewBox="0 0 8 8"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <circle cx="4" cy="4" r="4" fill="#0000FF" />
-                </svg>
+                {/* Vote Message */}
                 <div
-                  style={{
-                    color: "#000",
-                    fontFamily:
-                      "Inter, -apple-system, Roboto, Helvetica, sans-serif",
-                    fontSize: "24px",
-                    fontWeight: "600",
-                    lineHeight: "24px",
-                  }}
+                  style={{ display: "flex", alignItems: "center", gap: "12px" }}
                 >
-                  shard message
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 8 8"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle cx="4" cy="4" r="4" fill="#FF00FF" />
+                  </svg>
+                  <div
+                    style={{
+                      color: "#000",
+                      fontFamily:
+                        "Inter, -apple-system, Roboto, Helvetica, sans-serif",
+                      fontSize: "24px",
+                      fontWeight: "600",
+                      lineHeight: "24px",
+                    }}
+                  >
+                    vote message
+                  </div>
                 </div>
-              </div>
 
-              {/* Committee Change Message */}
-              <div
-                style={{ display: "flex", alignItems: "center", gap: "12px" }}
-              >
-                <svg
-                  width="12"
-                  height="12"
-                  viewBox="0 0 8 8"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <circle cx="4" cy="4" r="4" fill="#FF8800" />
-                </svg>
+                {/* Shard Message */}
                 <div
-                  style={{
-                    color: "#000",
-                    fontFamily:
-                      "Inter, -apple-system, Roboto, Helvetica, sans-serif",
-                    fontSize: "24px",
-                    fontWeight: "600",
-                    lineHeight: "24px",
-                  }}
+                  style={{ display: "flex", alignItems: "center", gap: "12px" }}
                 >
-                  committee change message
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 8 8"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle cx="4" cy="4" r="4" fill="#0000FF" />
+                  </svg>
+                  <div
+                    style={{
+                      color: "#000",
+                      fontFamily:
+                        "Inter, -apple-system, Roboto, Helvetica, sans-serif",
+                      fontSize: "24px",
+                      fontWeight: "600",
+                      lineHeight: "24px",
+                    }}
+                  >
+                    shard message
+                  </div>
+                </div>
+
+                {/* Committee Change Message */}
+                <div
+                  style={{ display: "flex", alignItems: "center", gap: "12px" }}
+                >
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 8 8"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle cx="4" cy="4" r="4" fill="#FF8800" />
+                  </svg>
+                  <div
+                    style={{
+                      color: "#000",
+                      fontFamily:
+                        "Inter, -apple-system, Roboto, Helvetica, sans-serif",
+                      fontSize: "24px",
+                      fontWeight: "600",
+                      lineHeight: "24px",
+                    }}
+                  >
+                    committee change message
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
           )}
 
           {/* 실제 지도가 렌더링 될 영역 */}
