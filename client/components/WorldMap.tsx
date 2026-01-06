@@ -12,7 +12,7 @@ const pinGroups: PinGroup[] = [
   // Canada
   {
     x: 358,
-    y: 251,
+    y: 191,
     country: "ca",
     bgSvg: (
       <svg
@@ -34,8 +34,8 @@ const pinGroups: PinGroup[] = [
   },
   // US pin 1
   {
-    x: 246,
-    y: 350,
+    x: 196,
+    y: 300,
     country: "us",
     bgSvg: (
       <svg
@@ -58,7 +58,7 @@ const pinGroups: PinGroup[] = [
   // US pin 2
   {
     x: 488,
-    y: 291,
+    y: 281,
     country: "us",
     bgSvg: (
       <svg
@@ -80,8 +80,8 @@ const pinGroups: PinGroup[] = [
   },
   // US pin 3
   {
-    x: 254,
-    y: 497,
+    x: 300,
+    y: 495,
     country: "us",
     bgSvg: (
       <svg
@@ -100,8 +100,8 @@ const pinGroups: PinGroup[] = [
   },
   // US pin 4
   {
-    x: 426,
-    y: 452,
+    x: 376,
+    y: 412,
     country: "us",
     bgSvg: (
       <svg
@@ -124,7 +124,7 @@ const pinGroups: PinGroup[] = [
   // Ireland
   {
     x: 688,
-    y: 268,
+    y: 238,
     country: "ie",
     bgSvg: (
       <svg
@@ -144,7 +144,7 @@ const pinGroups: PinGroup[] = [
   // UK
   {
     x: 843,
-    y: 264,
+    y: 234,
     country: "uk",
     bgSvg: (
       <svg
@@ -164,7 +164,7 @@ const pinGroups: PinGroup[] = [
   // Sweden
   {
     x: 880,
-    y: 80,
+    y: 50,
     country: "se",
     bgSvg: (
       <svg
@@ -184,7 +184,7 @@ const pinGroups: PinGroup[] = [
   // Germany
   {
     x: 939,
-    y: 309,
+    y: 289,
     country: "de",
     bgSvg: (
       <svg
