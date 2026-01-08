@@ -5,10 +5,36 @@ interface NodeData {
   x: number;
   y: number;
   pieType: string;
+  duration?: string; // Optional animation duration (e.g., "2s")
+  delay?: string;    // Optional animation delay (e.g., "0.5s")
 }
 
-// Component for rendering individual node with solid gray circle
+// Component for rendering individual node with pie segment
 const ShardNode: React.FC<{ node: NodeData }> = ({ node }) => {
+  const renderPieSegment = (type: string) => {
+    const fillColor = "#989FAF";
+
+    // Restore the structure if you want different shapes later, 
+    // but for now returning the circle as requested.
+    // You can expand this logic again if needed.
+    return (
+      <svg
+        width="60"
+        height="60"
+        viewBox="0 0 48 48"
+        fill="none"
+        style={{
+          position: "absolute",
+          left: "-6px",
+          top: "-6px",
+          overflow: "visible",
+        }}
+      >
+        <circle cx="24" cy="24" r="30" fill={fillColor} />
+      </svg>
+    );
+  };
+
   return (
     <div
       style={{
@@ -17,6 +43,7 @@ const ShardNode: React.FC<{ node: NodeData }> = ({ node }) => {
         top: `${node.y}px`,
         width: "48px",
         height: "48px",
+        overflow: "visible",
       }}
     >
       <div
@@ -27,13 +54,43 @@ const ShardNode: React.FC<{ node: NodeData }> = ({ node }) => {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
+          gap: "10px",
           borderRadius: "1000px",
-          backgroundColor: "#989FAF",
+          backgroundColor: "#000",
           position: "relative",
+          overflow: "hidden",
         }}
       >
         <div
+          className="pie-fill-animation"
           style={{
+            position: "absolute",
+            width: "120px",
+            height: "120px",
+            left: "50%",
+            top: "50%",
+            transform: "translate(-50%, -50%)",
+            pointerEvents: "none",
+            animationDuration: node.duration || "2s", // Use node-specific duration or default
+            animationDelay: node.delay || "0s",       // Use node-specific delay or default
+          }}
+        >
+          <div
+            style={{
+              position: "absolute",
+              width: "48px",
+              height: "48px",
+              left: "50%",
+              top: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            {renderPieSegment(node.pieType)}
+          </div>
+        </div>
+        <div
+          style={{
+            alignSelf: "stretch",
             color: "#FFF",
             textAlign: "center",
             fontFamily: "Inter, -apple-system, Roboto, Helvetica, sans-serif",
@@ -42,6 +99,7 @@ const ShardNode: React.FC<{ node: NodeData }> = ({ node }) => {
             fontWeight: "700",
             lineHeight: "24px",
             position: "relative",
+            zIndex: 10,
           }}
         >
           {node.id}
@@ -52,40 +110,50 @@ const ShardNode: React.FC<{ node: NodeData }> = ({ node }) => {
 };
 
 const CoordinationShardView: React.FC = () => {
-  const nodes: NodeData[] = [
-    { id: 1, x: 529, y: 105, pieType: "full-pie" },
-    { id: 2, x: 663, y: 130, pieType: "quarter" },
-    { id: 3, x: 717, y: 293, pieType: "full-pie" },
-    { id: 4, x: 663, y: 456, pieType: "half-pie" },
-    { id: 5, x: 529, y: 478, pieType: "right-half" },
-    { id: 6, x: 395, y: 456, pieType: "full-pie" },
-    { id: 7, x: 341, y: 292, pieType: "right-half" },
-    { id: 8, x: 395, y: 129, pieType: "half-pie" },
-    { id: 9, x: 607, y: 0, pieType: "small-wedge" },
-    { id: 10, x: 823, y: 214, pieType: "half-pie" },
-    { id: 11, x: 823, y: 372, pieType: "right-half-bottom" },
-    { id: 12, x: 607, y: 584, pieType: "full-pie" },
-    { id: 13, x: 451, y: 584, pieType: "wedge-down" },
-    { id: 14, x: 237, y: 374, pieType: "right-half-bottom" },
-    { id: 15, x: 237, y: 214, pieType: "small-wedge-2" },
-    { id: 16, x: 451, y: 0, pieType: "half-pie-simple" },
-    { id: 17, x: 824, y: 69, pieType: "right-half-2" },
-    { id: 18, x: 931, y: 136, pieType: "full-pie" },
-    { id: 19, x: 931, y: 450, pieType: "quarter" },
-    { id: 20, x: 823, y: 517, pieType: "quarter-simple" },
-    { id: 21, x: 235, y: 517, pieType: "full-pie" },
-    { id: 22, x: 127, y: 450, pieType: "wedge-down-2" },
-    { id: 23, x: 126, y: 135, pieType: "small-wedge" },
-    { id: 24, x: 235, y: 68, pieType: "wedge-down" },
-    { id: 25, x: 1058, y: 33, pieType: "half-pie" },
-    { id: 26, x: 1058, y: 214, pieType: "right-half-3" },
-    { id: 27, x: 1058, y: 372, pieType: "half-pie" },
-    { id: 28, x: 1058, y: 551, pieType: "wedge-down" },
-    { id: 29, x: 0, y: 551, pieType: "wedge-down" },
-    { id: 30, x: 0, y: 374, pieType: "small-wedge-3" },
-    { id: 31, x: 0, y: 214, pieType: "quarter-2" },
-    { id: 32, x: 0, y: 33, pieType: "full-pie" },
-  ];
+  // Use useMemo to ensure random values stay consistent across re-renders
+  const nodes: NodeData[] = React.useMemo(() => {
+    const rawNodes = [
+      { id: 1, x: 529, y: 105, pieType: "full-pie" },
+      { id: 2, x: 663, y: 130, pieType: "quarter" },
+      { id: 3, x: 717, y: 293, pieType: "full-pie" },
+      { id: 4, x: 663, y: 456, pieType: "half-pie" },
+      { id: 5, x: 529, y: 478, pieType: "right-half" },
+      { id: 6, x: 395, y: 456, pieType: "full-pie" },
+      { id: 7, x: 341, y: 292, pieType: "right-half" },
+      { id: 8, x: 395, y: 129, pieType: "half-pie" },
+      { id: 9, x: 607, y: 0, pieType: "small-wedge" },
+      { id: 10, x: 823, y: 214, pieType: "half-pie" },
+      { id: 11, x: 823, y: 372, pieType: "right-half-bottom" },
+      { id: 12, x: 607, y: 584, pieType: "full-pie" },
+      { id: 13, x: 451, y: 584, pieType: "wedge-down" },
+      { id: 14, x: 237, y: 374, pieType: "right-half-bottom" },
+      { id: 15, x: 237, y: 214, pieType: "small-wedge-2" },
+      { id: 16, x: 451, y: 0, pieType: "half-pie-simple" },
+      { id: 17, x: 824, y: 69, pieType: "right-half-2" },
+      { id: 18, x: 931, y: 136, pieType: "full-pie" },
+      { id: 19, x: 931, y: 450, pieType: "quarter" },
+      { id: 20, x: 823, y: 517, pieType: "quarter-simple" },
+      { id: 21, x: 235, y: 517, pieType: "full-pie" },
+      { id: 22, x: 127, y: 450, pieType: "wedge-down-2" },
+      { id: 23, x: 126, y: 135, pieType: "small-wedge" },
+      { id: 24, x: 235, y: 68, pieType: "wedge-down" },
+      { id: 25, x: 1058, y: 33, pieType: "half-pie" },
+      { id: 26, x: 1058, y: 214, pieType: "right-half-3" },
+      { id: 27, x: 1058, y: 372, pieType: "half-pie" },
+      { id: 28, x: 1058, y: 551, pieType: "wedge-down" },
+      { id: 29, x: 0, y: 551, pieType: "wedge-down" },
+      { id: 30, x: 0, y: 374, pieType: "small-wedge-3" },
+      { id: 31, x: 0, y: 214, pieType: "quarter-2" },
+      { id: 32, x: 0, y: 33, pieType: "full-pie" },
+    ];
+
+    // Assign random duration (2s-5s) and delay (0s-2s) to each node
+    return rawNodes.map((node) => ({
+      ...node,
+      duration: `${(Math.random() * 3 + 2).toFixed(2)}s`,
+      delay: `${(Math.random() * 2).toFixed(2)}s`,
+    }));
+  }, []);
 
   const connections = [
     // Main SVG paths from Figma

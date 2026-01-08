@@ -118,3 +118,25 @@
     white-space: pre;
   }
 }
+
+/* Custom Animation for ShardNodes */
+@property --mask-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes pie-fill {
+  0% { --mask-angle: 0deg; }
+  100% { --mask-angle: 360deg; }
+}
+
+.pie-fill-animation {
+  mask-image: conic-gradient(from 0deg at 50% 50%, black var(--mask-angle), transparent var(--mask-angle));
+  -webkit-mask-image: conic-gradient(from 0deg at 50% 50%, black var(--mask-angle), transparent var(--mask-angle));
+  mask-position: center;
+  -webkit-mask-position: center;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  animation: pie-fill 2s linear infinite;
+}
