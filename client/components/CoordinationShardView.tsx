@@ -226,7 +226,32 @@ const CoordinationShardView: React.FC = () => {
           <ShardNode key={node.id} node={node} />
         ))}
 
-        {/* Central Coordination Shard */}
+        {/* Central Coordination Shard Background (Animated) */}
+        <div
+          className="pie-fill-animation"
+          style={{
+            position: "absolute",
+            left: "434px",
+            top: "196px",
+            width: "240px",
+            height: "240px",
+            maskImage: `conic-gradient(from 0deg at 50% 50%, black var(--mask-angle), transparent var(--mask-angle))`,
+            WebkitMaskImage: `conic-gradient(from 0deg at 50% 50%, black var(--mask-angle), transparent var(--mask-angle))`,
+            animationDuration: "5s",
+          }}
+        >
+          <svg
+            width="240"
+            height="240"
+            viewBox="0 0 240 240"
+            fill="none"
+            style={{ width: "100%", height: "100%" }}
+          >
+            <circle cx="120" cy="120" r="117" fill="white" />
+          </svg>
+        </div>
+
+        {/* Central Coordination Shard Foreground (Static) */}
         <svg
           style={{
             position: "absolute",
@@ -240,10 +265,6 @@ const CoordinationShardView: React.FC = () => {
           viewBox="0 0 206 211"
           fill="none"
         >
-          <path
-            d="M193.834 166.054C185.197 183.713 172.147 198.928 155.904 210.276L87.6951 115.839L87.6951 4.57764e-05C107.619 4.49055e-05 127.217 4.97104 144.656 14.4479C162.095 23.9248 176.805 37.5978 187.409 54.1875C198.013 70.7773 204.164 89.7416 205.288 109.306C206.412 128.87 202.471 148.395 193.834 166.054Z"
-            fill="white"
-          />
           <circle
             cx="87.3501"
             cy="117.166"
