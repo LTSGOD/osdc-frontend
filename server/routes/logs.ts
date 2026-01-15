@@ -3,7 +3,7 @@ import path from "path";
 import fs from "fs";
 
 export const handleGetLogs: RequestHandler = (req, res) => {
-  const logPath = path.join(process.cwd(), "logs", "TC1~4_Round1_data.json");
+  const logPath = path.join(process.cwd(), "logs", "TC_1~4_Round3_Gateway_TPS_PerSecond.json");
   
   if (fs.existsSync(logPath)) {
       res.sendFile(logPath);

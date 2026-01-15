@@ -5,39 +5,24 @@ import LatencyChart from "@/components/charts/LatencyChart";
 import CoordinationShardView from "@/components/CoordinationShardView";
 import { useState, useEffect } from "react";
 
-interface TimeSeriesData {
-  x: number;
-  totalTPS: number;
-  averageSingleShardTPS: number;
-  averageCrossShardTransactionLatency: number;
-  averageSingleShardTransactionLatency: number;
-  currentTPS: number;
-  currentLatency: number;
-  timestamp: number;
-}
-
-interface ChartDataPoint {
-  x: number;
-  y: number;
-  timestamp: number;
-}
-
-interface FullDashboardData {
-  timeSeries: TimeSeriesData[];
-  charts: {
-    transactionPerSecond: ChartDataPoint[];
-    transactionConfirmationTime: ChartDataPoint[];
-  };
-}
-
-interface LogData {
-  fullDashboard: FullDashboardData;
+interface LogEntry {
+  second: number;
+  timestamp: string;
+  tps: number;
+  avgSingleShardTPS: number;
+  cumulativeTx: number;
+  events: number;
+  activeShards: number;
+  avgLocalLatency: number;
+  avgCrossLatency: number | null;
+  transactionConfirmationTime: number;
 }
 
 export default function Index() {
   const [metrics, setMetrics] = useState({
     totalTPS: 0,
     avgSingleShardTPS: 0,
+    avgSingleShardLatency: 0,
     avgCrossShardLatency: 0,
     totalTransactions: 0,
     leaderChangeTime: "00.00",
@@ -51,11 +36,7 @@ export default function Index() {
   >([]);
   const [logs, setLogs] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState(1);
-  const [timeSeriesData, setTimeSeriesData] = useState<TimeSeriesData[]>([]);
-  const [chartsData, setChartsData] = useState<{
-    tps: ChartDataPoint[];
-    latency: ChartDataPoint[];
-  }>({ tps: [], latency: [] });
+  const [timeSeriesData, setTimeSeriesData] = useState<LogEntry[]>([]);
 
   useEffect(() => {
     fetch("/api/logs")
@@ -65,17 +46,9 @@ export default function Index() {
         }
         return res.json();
       })
-      .then((data: LogData) => {
-        if (data && data.fullDashboard) {
-          if (data.fullDashboard.timeSeries) {
-            setTimeSeriesData(data.fullDashboard.timeSeries);
-          }
-          if (data.fullDashboard.charts) {
-            setChartsData({
-              tps: data.fullDashboard.charts.transactionPerSecond,
-              latency: data.fullDashboard.charts.transactionConfirmationTime,
-            });
-          }
+      .then((data: LogEntry[]) => {
+        if (Array.isArray(data)) {
+          setTimeSeriesData(data);
         }
       })
       .catch((err) => console.error("Failed to load logs:", err));
@@ -85,89 +58,75 @@ export default function Index() {
     if (timeSeriesData.length === 0) return;
 
     let currentIndex = 0;
-    let currentTotalTx = 0;
 
     const interval = setInterval(() => {
       if (currentIndex >= timeSeriesData.length) {
-        currentIndex = 0; // Loop back to start or stop
-        // clearInterval(interval); // Uncomment to stop at end
-        // return;
+        currentIndex = 0; // Loop back to start
       }
 
       const currentData = timeSeriesData[currentIndex];
-      const timeStr = currentData.x.toString();
-      const now = new Date(); // Use current time for log timestamp or use real timestamp from data
-      const timestamp = now.toISOString().split("T")[1].slice(0, -1);
+      const timeStr = currentData.second.toString();
+       // Use the timestamp from data if preferred, or just current time
+      const timestamp = new Date(currentData.timestamp).toLocaleTimeString();
 
-      // Random generation logic only for fields not in JSON for now, or keep them if needed
-      // const randomTotalTPS = Math.floor(Math.random() * 3000) + 2000; // 2000-5000
-      // const randomSingleShardTPS = Math.floor(
-      //   randomTotalTPS * (0.3 + Math.random() * 0.1),
-      // );
-      const randomLatency = parseFloat((Math.random() * 0.5 + 0.3).toFixed(6));
       const randomLeaderTime = "00.00";
       const randomCommitteeTime = "00.00";
 
-      // Use data from JSON
-      const totalTPS = currentData.totalTPS;
-      const singleShardTPS = currentData.averageSingleShardTPS;
-      const crossShardLatency = currentData.averageCrossShardTransactionLatency;
-
-      // Accumulate Total Tx if needed or assume it's cumulative in real app, but here we just sum TPS roughly
-      currentTotalTx += totalTPS;
+      // Mapping as requested
+      const totalTPS = currentData.tps;
+      const singleShardTPS = currentData.avgSingleShardTPS;
+      const singleShardLatency = currentData.avgLocalLatency;
+      const crossShardLatency = currentData.avgCrossLatency ?? 0;
+      const cumulativeTx = currentData.cumulativeTx;
 
       setMetrics({
         totalTPS: totalTPS,
         avgSingleShardTPS: singleShardTPS,
+        avgSingleShardLatency: singleShardLatency,
         avgCrossShardLatency: crossShardLatency,
-        totalTransactions: currentTotalTx,
-        leaderChangeTime: randomLeaderTime, // Still random as requested only specific fields
-        committeeChangeTime: randomCommitteeTime, // Still random
-        blockHeight: currentIndex, // Using index as block height simulation
+        totalTransactions: cumulativeTx,       // Mapped to cumulativeTx
+        leaderChangeTime: randomLeaderTime,
+        committeeChangeTime: randomCommitteeTime,
+        blockHeight: currentData.second, // Using 'second' as block height proxy
       });
 
       // Update Charts
-      if (chartsData.tps.length > currentIndex) {
-        const tpsPoint = chartsData.tps[currentIndex];
-        setTpsData((prev) => {
-          const newData = [
-            ...prev,
-            { time: tpsPoint.x.toString(), value: tpsPoint.y },
-          ];
-          return newData.slice(-50); // Keep last 50 points
-        });
-      }
+      setTpsData((prev) => {
+        const newData = [
+          ...prev,
+          { time: timeStr, value: currentData.tps },
+        ];
+        return newData.slice(-50);
+      });
 
-      if (chartsData.latency.length > currentIndex) {
-        const latencyPoint = chartsData.latency[currentIndex];
-        setLatencyData((prev) => {
-          const newData = [
-            ...prev,
-            { time: latencyPoint.x.toString(), value: latencyPoint.y },
-          ];
-          return newData.slice(-50); // Keep last 50 points
-        });
-      }
+      setLatencyData((prev) => {
+        const newData = [
+          ...prev,
+          { time: timeStr, value: currentData.transactionConfirmationTime },
+        ];
+        return newData.slice(-50);
+      });
 
-      // Update Logs - Placeholder or need real log parsing if available
-      const dummyLog = `[DEBUG] ${timestamp} replica.go:109: [1] received a block from ${Math.floor(Math.random() * 4)}, Round is ${currentIndex}`;
+      // Update Logs - Placeholder
+      const dummyLog = `[DEBUG] ${timestamp} replica.go:109: [1] received a block from ${Math.floor(Math.random() * 4)}, Round is ${currentData.second}`;
       setLogs((prev) => {
         const newLogs = [...prev, dummyLog];
-        return newLogs.slice(-20); // Keep last 20 logs
+        return newLogs.slice(-20);
       });
 
       currentIndex++;
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [timeSeriesData, chartsData]);
+  }, [timeSeriesData]);
 
   return (
     <Dashboard
       metrics={{
         totalTPS: metrics.totalTPS.toLocaleString(),
         avgSingleShardTPS: metrics.avgSingleShardTPS.toLocaleString(),
-        avgLatency: metrics.avgCrossShardLatency.toFixed(6),
+        avgSingleShardLatency: metrics.avgSingleShardLatency.toFixed(6),
+        avgCrossShardLatency: metrics.avgCrossShardLatency.toFixed(6),
         totalTx: metrics.totalTransactions.toLocaleString(),
         leaderChangeTime: metrics.leaderChangeTime,
         committeeChangeTime: metrics.committeeChangeTime,

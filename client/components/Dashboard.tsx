@@ -5,7 +5,8 @@ interface DashboardProps {
   metrics: {
     totalTPS: string | number;
     avgSingleShardTPS: string | number;
-    avgLatency: string | number;
+    avgSingleShardLatency: string | number;
+    avgCrossShardLatency: string | number;
     totalTx: string | number;
     leaderChangeTime: string | number;
     committeeChangeTime: string | number;
@@ -63,11 +64,11 @@ const Dashboard: React.FC<DashboardProps> = ({
         />
         <MetricItem
           label="Average Single Shard Transaction Latency"
-          value={metrics.avgLatency}
+          value={metrics.avgSingleShardLatency}
         />
         <MetricItem
           label="Average Cross Shard Transaction Latency"
-          value={metrics.avgLatency}
+          value={metrics.avgCrossShardLatency}
         />
         <MetricItem
           label="Total Transactions"
