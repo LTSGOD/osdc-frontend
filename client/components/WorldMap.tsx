@@ -13,12 +13,6 @@ interface WorldMapProps {
   activeTab?: number;
 }
 
-// Coordinate constants for Shard0 & Shard1 base locations
-const SHARD_X_OFFSET_0 = 790;
-const SHARD_Y_OFFSET_0 = 580;
-const SHARD_X_OFFSET_1 = 1157;
-const SHARD_Y_OFFSET_1 = 397;
-
 interface AnimParticle {
   fromX: number;
   fromY: number;
@@ -29,23 +23,389 @@ interface AnimParticle {
   color: string;
 }
 
+// 33개 샤드별 노드 (절대좌표 x, y로 직접 저장)
+const SHARDS: Array<{ num: number; x: number; y: number }[]> = [
+  // Shard 0
+  [
+    { num: 1, x: 1430, y: 265 }, //서울1
+    { num: 2, x: 1726, y: 476 }, //도쿄17
+    { num: 3, x: 1624, y: 552 }, //도쿄40
+    { num: 4, x: 1243, y: 540 }, //싱가포르12
+    { num: 5, x: 1484, y: 341 }, //서울33
+    { num: 6, x: 1224, y: 580 }, //싱가포르22
+    { num: 7, x: 1505, y: 410 }, //서울45
+    { num: 8, x: 960, y: 395 }, //독일10
+  ],
+  // Shard 1
+  [
+    { num: 1, x: 1448, y: 265 }, //서울 2
+    { num: 2, x: 1620, y: 495 }, //도쿄18
+    { num: 3, x: 1642, y: 552 }, //도쿄41
+    { num: 4, x: 274, y: 474 }, //캘리13
+    { num: 5, x: 1502, y: 341 }, //서울34
+    { num: 6, x: 1243, y: 580 }, //싱가포르23
+    { num: 7, x: 1525, y: 410 }, //서울46, 끝
+    { num: 8, x: 414, y: 388 }, //캐나다21
+  ],
+  // Shard 2
+  [
+    { num: 1, x: 1466, y: 265 }, //서울 3
+    { num: 2, x: 1638, y: 495 }, //도쿄19
+    { num: 3, x: 1660, y: 552 }, //도쿄42
+    { num: 4, x: 292, y: 474 }, //캘리14
+    { num: 5, x: 1430, y: 360 }, //서울35
+    { num: 6, x: 1262, y: 580 }, //싱가포르24
+    { num: 7, x: 1233, y: 620 }, //싱가포르35
+    { num: 8, x: 305, y: 408 }, //캐나다22
+  ],
+  // Shard 3
+  [
+    { num: 1, x: 1484, y: 265 }, //서울 4
+    { num: 2, x: 1656, y: 495 }, //도쿄20
+    { num: 3, x: 1678, y: 552 }, //도쿄43
+    { num: 4, x: 184, y: 493 }, //캘리15
+    { num: 5, x: 1448, y: 360 }, //서울36
+    { num: 6, x: 1280, y: 580 }, //싱가포르25
+    { num: 7, x: 1252, y: 620 }, //싱가포르36
+    { num: 8, x: 940, y: 395 }, //독일11
+  ],
+  // Shard 4
+  [
+    { num: 1, x: 1502, y: 265 }, //서울 5
+    { num: 2, x: 1674, y: 495 }, //도쿄21
+    { num: 3, x: 1696, y: 552 }, //도쿄44
+    { num: 4, x: 202, y: 493 }, //캘리16
+    { num: 5, x: 292, y: 531 }, //캘리33
+    { num: 6, x: 1298, y: 580 }, //싱가포르26
+    { num: 7, x: 1271, y: 620 }, //싱가포르37
+    { num: 8, x: 860, y: 415 }, //독일12
+  ],
+  // Shard 5
+  [
+    { num: 1, x: 1520, y: 265 }, //서울 6
+    { num: 2, x: 1692, y: 495 }, //도쿄22
+    { num: 3, x: 1714, y: 552 }, //도쿄45
+    { num: 4, x: 1502, y: 303 }, //서울21
+    { num: 5, x: 310, y: 531 }, //캘리34
+    { num: 6, x: 1316, y: 580 }, //싱가포르27
+    { num: 7, x: 1290, y: 620 }, //싱가포르38
+    { num: 8, x: 324, y: 408 }, //캐나다23
+  ],
+  // Shard 6
+  [
+    { num: 1, x: 1538, y: 265 }, //서울 7
+    { num: 2, x: 1710, y: 495 }, //도쿄23
+    { num: 3, x: 305, y: 350 }, //캐나다1
+    { num: 4, x: 1520, y: 303 }, //서울22
+    { num: 5, x: 328, y: 531 }, //캘리35
+    { num: 6, x: 1215, y: 600 }, //싱가포르28
+    { num: 7, x: 1308, y: 620 }, //싱가포르39
+    { num: 8, x: 342, y: 408 }, //캐나다24
+  ],
+  // Shard 7
+  [
+    { num: 1, x: 1556, y: 265 }, //서울 8
+    { num: 2, x: 1728, y: 495 }, //도쿄24
+    { num: 3, x: 324, y: 350 }, //캐나다2
+    { num: 4, x: 1538, y: 303 }, //서울23
+    { num: 5, x: 233, y: 550 }, //캘리36
+    { num: 6, x: 938, y: 353 }, //독일1
+    { num: 7, x: 1326, y: 620 }, //싱가포르40
+    { num: 8, x: 1550, y: 570 }, //오사카7
+  ],
+  // Shard 8
+  [
+    { num: 1, x: 1707, y: 400 }, //도쿄1
+    { num: 2, x: 1605, y: 514 }, //도쿄25
+    { num: 3, x: 342, y: 350 }, //캐나다3
+    { num: 4, x: 1430, y: 322 }, //서울24
+    { num: 5, x: 1466, y: 360 }, //서울37
+    { num: 6, x: 920, y: 353 }, //독일2
+    { num: 7, x: 1250, y: 639 }, //싱가포르41
+    { num: 8, x: 1490, y: 590 }, //오사카8
+  ],
+  // Shard 9
+  [
+    { num: 1, x: 1725, y: 400 }, //도쿄2
+    { num: 2, x: 1624, y: 514 }, //도쿄25
+    { num: 3, x: 360, y: 350 }, //캐나다4
+    { num: 4, x: 220, y: 493 }, //캘리17
+    { num: 5, x: 1484, y: 360 }, //서울38
+    { num: 6, x: 900, y: 415 }, //독일3
+    { num: 7, x: 1269, y: 639 }, //싱가포르42
+    { num: 8, x: 900, y: 395 }, //독일13
+  ],
+  // Shard 10
+  [
+    { num: 1, x: 1702, y: 419 }, //도쿄3
+    { num: 2, x: 1642, y: 514 }, //도쿄26
+    { num: 3, x: 378, y: 350 }, //캐나다5
+    { num: 4, x: 238, y: 493 }, //캘리18
+    { num: 5, x: 1502, y: 360 }, //서울39
+    { num: 6, x: 920, y: 415 }, //독일4
+    { num: 7, x: 1288, y: 639 }, //싱가포르43
+    { num: 8, x: 900, y: 375 }, //독일14
+  ],
+  // Shard 11
+  [
+    { num: 1, x: 1720, y: 419 }, //도쿄4
+    { num: 2, x: 1660, y: 514 }, //도쿄27
+    { num: 3, x: 396, y: 350 }, //캐나다6
+    { num: 4, x: 256, y: 493 }, //캘리19
+    { num: 5, x: 1520, y: 360 }, //서울40
+    { num: 6, x: 324, y: 369 }, //캐나다9
+    { num: 7, x: 1306, y: 639 }, //싱가포르44
+    { num: 8, x: 360, y: 408 }, //캐나다25
+  ],
+  // Shard 12
+  [
+    { num: 1, x: 1738, y: 419 }, //도쿄5
+    { num: 2, x: 1678, y: 514 }, //도쿄28
+    { num: 3, x: 414, y: 350 }, //캐나다7
+    { num: 4, x: 274, y: 493 }, //캘리20
+    { num: 5, x: 252, y: 550 }, //캘리37
+    { num: 6, x: 342, y: 369 }, //캐나다10
+    { num: 7, x: 1270, y: 658 }, //싱가포르45
+    { num: 8, x: 379, y: 408 }, //캐나다26
+  ],
+  // Shard 13
+  [
+    { num: 1, x: 1698, y: 438 }, //도쿄6
+    { num: 2, x: 1696, y: 514 }, //도쿄29
+    { num: 3, x: 305, y: 369 }, //캐나다8
+    { num: 4, x: 292, y: 493 }, //캘리21
+    { num: 5, x: 270, y: 550 }, //캘리38
+    { num: 6, x: 360, y: 369 }, //캐나다11
+    { num: 7, x: 1288, y: 658 }, //싱가포르46, 끝
+    { num: 8, x: 1515, y: 590 }, //오사카9
+  ],
+  // Shard 14
+  [
+    { num: 1, x: 1716, y: 438 }, //도쿄7
+    { num: 2, x: 1714, y: 514 }, //도쿄30
+    { num: 3, x: 1430, y: 303 }, //서울17
+    { num: 4, x: 200, y: 512 }, //캘리22
+    { num: 5, x: 288, y: 550 }, //캘리39
+    { num: 6, x: 378, y: 369 }, //캐나다12
+    { num: 7, x: 1360, y: 415 }, //홍콩5
+    { num: 8, x: 1540, y: 590 }, //오사카10, 끝
+  ],
+  // Shard 15
+  [
+    { num: 1, x: 1734, y: 438 }, //도쿄8
+    { num: 2, x: 1430, y: 284 }, //서울9
+    { num: 3, x: 1448, y: 303 }, //서울18
+    { num: 4, x: 218, y: 512 }, //캘리23
+    { num: 5, x: 306, y: 550 }, //캘리40
+    { num: 6, x: 1340, y: 395 }, //홍콩1
+    { num: 7, x: 1380, y: 415 }, //홍콩6
+    { num: 8, x: 397, y: 408 }, //캐나다27
+  ],
+  // Shard 16
+  [
+    { num: 1, x: 1650, y: 457 }, //도쿄9
+    { num: 2, x: 1448, y: 284 }, //서울10
+    { num: 3, x: 1466, y: 303 }, //서울19
+    { num: 4, x: 236, y: 512 }, //캘리24
+    { num: 5, x: 324, y: 550 }, //캘리41
+    { num: 6, x: 1380, y: 395 }, //홍콩2
+    { num: 7, x: 1510, y: 550 }, //오사카1
+    { num: 8, x: 416, y: 408 }, //캐나다28
+  ],
+  // Shard 17
+  [
+    { num: 1, x: 1688, y: 457 }, //도쿄10
+    { num: 2, x: 1466, y: 284 }, //서울11
+    { num: 3, x: 1484, y: 303 }, //서울20
+    { num: 4, x: 1448, y: 322 }, //서울25
+    { num: 5, x: 342, y: 550 }, //캘리42
+    { num: 6, x: 1400, y: 395 }, //홍콩3
+    { num: 7, x: 1530, y: 550 }, //오사카2
+    { num: 8, x: 1340, y: 435 }, //홍콩9
+  ],
+  // Shard 18
+  [
+    { num: 1, x: 1706, y: 457 }, //도쿄11
+    { num: 2, x: 1484, y: 284 }, //서울12
+    { num: 3, x: 202, y: 474 }, //캘리9
+    { num: 4, x: 1466, y: 322 }, //서울26
+    { num: 5, x: 255, y: 569 }, //캘리43
+    { num: 6, x: 1340, y: 415 }, //홍콩4
+    { num: 7, x: 920, y: 395 }, //독일5
+    { num: 8, x: 1360, y: 435 }, //홍콩10
+  ],
+  // Shard 19
+  [
+    { num: 1, x: 1724, y: 457 }, //도쿄12
+    { num: 2, x: 1502, y: 284 }, //서울13
+    { num: 3, x: 220, y: 474 }, //캘리10
+    { num: 4, x: 1484, y: 322 }, //서울27
+    { num: 5, x: 273, y: 569 }, //캘리44
+    { num: 6, x: 396, y: 369 }, //캐나다13
+    { num: 7, x: 986, y: 353 }, //독일6
+    { num: 8, x: 940, y: 375 }, //독일15
+  ],
+  // Shard 20
+  [
+    { num: 1, x: 1635, y: 476 }, //도쿄12
+    { num: 2, x: 1520, y: 284 }, //서울14
+    { num: 3, x: 238, y: 474 }, //캘리11
+    { num: 4, x: 1502, y: 322 }, //서울28
+    { num: 5, x: 291, y: 569 }, //캘리45
+    { num: 6, x: 414, y: 369 }, //캐나다14
+    { num: 7, x: 342, y: 388 }, //캐나다17
+    { num: 8, x: 880, y: 395 }, //독일16
+  ],
+  // Shard 21
+  [
+    { num: 1, x: 1653, y: 476 }, //도쿄13
+    { num: 2, x: 1538, y: 284 }, //서울15
+    { num: 3, x: 256, y: 474 }, //캘리12
+    { num: 4, x: 254, y: 512 }, //캘리25
+    { num: 5, x: 309, y: 569 }, //캘리46
+    { num: 6, x: 305, y: 388 }, //캐나다15
+    { num: 7, x: 360, y: 388 }, //캐나다18
+    { num: 8, x: 968, y: 353 }, //독일17
+  ],
+  // Shard 22
+  [
+    { num: 1, x: 1672, y: 476 }, //도쿄14
+    { num: 2, x: 1556, y: 284 }, //서울16
+    { num: 3, x: 1205, y: 480 }, //싱가포르1
+    { num: 4, x: 272, y: 512 }, //캘리26
+    { num: 5, x: 327, y: 569 }, //캘리47
+    { num: 6, x: 324, y: 388 }, //캐나다16
+    { num: 7, x: 1400, y: 415 }, //홍콩7
+    { num: 8, x: 960, y: 375 }, //독일18, 끝
+  ],
+  // Shard 23
+  [
+    { num: 1, x: 1690, y: 476 }, //도쿄15
+    { num: 2, x: 1732, y: 514 }, //도쿄31
+    { num: 3, x: 1224, y: 480 }, //싱가포르2
+    { num: 4, x: 290, y: 512 }, //캘리27
+    { num: 5, x: 345, y: 569 }, //캘리48, 끝
+    { num: 6, x: 1485, y: 386 }, //서울41
+    { num: 7, x: 1400, y: 415 }, //홍콩8
+    { num: 8, x: 305, y: 428 }, //캐나다29
+  ],
+  // Shard 24
+  [
+    { num: 1, x: 184, y: 455 }, //캘리1
+    { num: 2, x: 1605, y: 533 }, //도쿄31
+    { num: 3, x: 1205, y: 500 }, //싱가포르3
+    { num: 4, x: 308, y: 512 }, //캘리28
+    { num: 5, x: 1262, y: 540 }, //싱가포르13
+    { num: 6, x: 1505, y: 386 }, //서울42
+    { num: 7, x: 1550, y: 550 }, //오사카3
+    { num: 8, x: 324, y: 428 }, //캐나다30
+  ],
+  // Shard 25
+  [
+    { num: 1, x: 202, y: 455 }, //캘리2
+    { num: 2, x: 1623, y: 533 }, //도쿄32
+    { num: 3, x: 1224, y: 500 }, //싱가포르4
+    { num: 4, x: 1520, y: 322 }, //서울29
+    { num: 5, x: 1280, y: 540 }, //싱가포르14
+    { num: 6, x: 1233, y: 600 }, //싱가포르29
+    { num: 7, x: 1490, y: 570 }, //오사카4
+    { num: 8, x: 342, y: 428 }, //캐나다31
+  ],
+  // Shard 26
+  [
+    { num: 1, x: 220, y: 455 }, //캘리3
+    { num: 2, x: 1641, y: 533 }, //도쿄33
+    { num: 3, x: 1243, y: 500 }, //싱가포르5
+    { num: 4, x: 1430, y: 341 }, //서울30
+    { num: 5, x: 1205, y: 560 }, //싱가포르15
+    { num: 6, x: 1252, y: 600 }, //싱가포르30
+    { num: 7, x: 880, y: 415 }, //독일7
+    { num: 8, x: 360, y: 428 }, //캐나다32
+  ],
+  // Shard 27
+  [
+    { num: 1, x: 238, y: 455 }, //캘리4
+    { num: 2, x: 1659, y: 533 }, //도쿄34
+    { num: 3, x: 1205, y: 520 }, //싱가포르6
+    { num: 4, x: 1448, y: 341 }, //서울31
+    { num: 5, x: 1224, y: 560 }, //싱가포르16
+    { num: 6, x: 1525, y: 386 }, //서울43
+    { num: 7, x: 920, y: 375 }, //독일8
+    { num: 8, x: 379, y: 428 }, //캐나다33
+  ],
+  // Shard 28
+  [
+    { num: 1, x: 256, y: 455 }, //캘리5
+    { num: 2, x: 1677, y: 533 }, //도쿄35
+    { num: 3, x: 1224, y: 520 }, //싱가포르7
+    { num: 4, x: 1466, y: 341 }, //서울32
+    { num: 5, x: 1243, y: 560 }, //싱가포르17
+    { num: 6, x: 1485, y: 410 }, //서울44
+    { num: 7, x: 378, y: 388 }, //캐나다19
+    { num: 8, x: 398, y: 428 }, //캐나다34
+  ],
+  // Shard 29
+  [
+    { num: 1, x: 274, y: 455 }, //캘리6
+    { num: 2, x: 1695, y: 533 }, //도쿄36
+    { num: 3, x: 1243, y: 520 }, //싱가포르8
+    { num: 4, x: 220, y: 531 }, //캘리29
+    { num: 5, x: 1262, y: 560 }, //싱가포르18
+    { num: 6, x: 1271, y: 600 }, //싱가포르31
+    { num: 7, x: 396, y: 388 }, //캐나다20
+    { num: 8, x: 416, y: 428 }, //캐나다35
+  ],
+  // Shard 30
+  [
+    { num: 1, x: 292, y: 455 }, //캘리7
+    { num: 2, x: 1713, y: 533 }, //도쿄37
+    { num: 3, x: 1262, y: 520 }, //싱가포르9
+    { num: 4, x: 238, y: 531 }, //캘리30
+    { num: 5, x: 1280, y: 560 }, //싱가포르19
+    { num: 6, x: 1290, y: 600 }, //싱가포르32
+    { num: 7, x: 1510, y: 570 }, //오사카5
+    { num: 8, x: 435, y: 428 }, //캐나다36, 끝
+  ],
+  // Shard 31
+  [
+    { num: 1, x: 184, y: 474 }, //캘리8
+    { num: 2, x: 1731, y: 533 }, //도쿄38
+    { num: 3, x: 1205, y: 540 }, //싱가포르10
+    { num: 4, x: 256, y: 531 }, //캘리31
+    { num: 5, x: 1298, y: 560 }, //싱가포르20
+    { num: 6, x: 1308, y: 600 }, //싱가포르33
+    { num: 7, x: 1530, y: 570 }, //오사카6
+    { num: 8, x: 1380, y: 435 }, //홍콩11
+  ],
+  // Shard 32
+  [
+    { num: 1, x: 1708, y: 476 }, //도쿄16
+    { num: 2, x: 1605, y: 552 }, //도쿄39
+    { num: 3, x: 1224, y: 540 }, //싱가포르11
+    { num: 4, x: 274, y: 531 }, //캘리32
+    { num: 5, x: 1205, y: 580 }, //싱가포르21
+    { num: 6, x: 1326, y: 600 }, //싱가포르34
+    { num: 7, x: 980, y: 375 }, //독일9
+    { num: 8, x: 1350, y: 455 }, //홍콩12, 끝
+  ],
+];
+
 const pinGroups: PinGroup[] = [
-  // US pin 2
   {
     x: 348,
     y: 281,
-    country: "us",
+    country: "ca", //canada
     bgSvg: (
       <svg
         className="absolute"
-        style={{ left: "300px", top: "335px", width: "132px", height: "117px" }}
-        viewBox="0 0 132 117"
+        style={{ left: "300px", top: "335px", width: "145px", height: "130px" }}
+        viewBox="0 0 145 130"
         fill="none"
       >
         <rect
           y="12"
-          width="132"
-          height="105"
+          width="145"
+          height="110"
           rx="20"
           fill="black"
           fillOpacity="0.15"
@@ -53,16 +413,16 @@ const pinGroups: PinGroup[] = [
       </svg>
     ),
   },
-  // US pin 3
   {
-    x: 300,
-    y: 495,
+    x: 220,
+    y: 390,
     country: "us",
     bgSvg: (
       <svg
         className="absolute"
-        style={{ left: "187px", top: "475px", width: "238px", height: "238px" }}
-        viewBox="0 0 238 238"
+        // 기존 240x280 → 300x330로 확대, 위치 약간 조정
+        style={{ left: "160px", top: "455px", width: "300px", height: "300px" }}
+        viewBox="0 0 240 280"
         fill="none"
       >
         <path
@@ -73,7 +433,6 @@ const pinGroups: PinGroup[] = [
       </svg>
     ),
   },
-  // Germany
   {
     x: 939,
     y: 289,
@@ -93,19 +452,18 @@ const pinGroups: PinGroup[] = [
       </svg>
     ),
   },
-  // Singapore
   {
-    x: 1267,
-    y: 485,
+    x: 1195,
+    y: 405,
     country: "sg",
     bgSvg: (
       <svg
         className="absolute"
         style={{
-          left: "1120px",
-          top: "485px",
-          width: "315px",
-          height: "180px",
+          left: "1106px",
+          top: "475px",
+          width: "340px",
+          height: "200px",
         }}
         viewBox="0 0 143 187"
         fill="none"
@@ -118,7 +476,6 @@ const pinGroups: PinGroup[] = [
       </svg>
     ),
   },
-  // Hong Kong
   {
     x: 1347,
     y: 330,
@@ -143,7 +500,6 @@ const pinGroups: PinGroup[] = [
       </svg>
     ),
   },
-  // South Korea
   {
     x: 1540,
     y: 350,
@@ -168,7 +524,6 @@ const pinGroups: PinGroup[] = [
       </svg>
     ),
   },
-  // Japan 1
   {
     x: 1515,
     y: 470,
@@ -192,19 +547,18 @@ const pinGroups: PinGroup[] = [
       </svg>
     ),
   },
-  // Japan 2
   {
     x: 1653,
     y: 400,
-    country: "jp",
+    country: "jp", //dokyo
     bgSvg: (
       <svg
         className="absolute"
         style={{
           left: "1571px",
-          top: "410px",
+          top: "400px",
           width: "209px",
-          height: "180px",
+          height: "200px",
         }}
         viewBox="0 0 126 179"
         fill="none"
@@ -216,96 +570,13 @@ const pinGroups: PinGroup[] = [
         />
       </svg>
     ),
-  }
+  },
 ];
 
 export default function WorldMap({
   showShardNumbers = false,
   activeTab = 1,
 }: WorldMapProps) {
-  // Shard numbers to display around Shard0 (Distributed across available map pins)
-  // Base coordinate reference: x:790, y:580
-  const shard0 = [
-    // US Pin 2 (x: 348, y: 281) -> Offset approx (-442, -299)
-    { num: 16, offsetX: -452, offsetY: -309 },
-    { num: 16, offsetX: -432, offsetY: -309 },
-    { num: 16, offsetX: -442, offsetY: -289 },
-    
-    // US Pin 3 (x: 300, y: 495) -> Offset approx (-490, -85)
-    { num: 17, offsetX: -500, offsetY: -95 },
-    { num: 24, offsetX: -480, offsetY: -95 },
-    { num: 24, offsetX: -490, offsetY: -75 },
-
-    // Germany (x: 939, y: 289) -> Offset approx (149, -291)
-    { num: 15, offsetX: 139, offsetY: -301 },
-    { num: 7, offsetX: 159, offsetY: -301 },
-    { num: 19, offsetX: 149, offsetY: -281 },
-    
-    // Singapore (x: 1267, y: 485) -> Offset approx (477, -95)
-    { num: 7, offsetX: 467, offsetY: -105 },
-    { num: 14, offsetX: 487, offsetY: -105 },
-    { num: 14, offsetX: 477, offsetY: -85 },
-
-    // Hong Kong (x: 1347, y: 330) -> Offset approx (557, -250)
-    { num: 10, offsetX: 547, offsetY: -260 },
-    { num: 10, offsetX: 567, offsetY: -260 },
-    { num: 5, offsetX: 557, offsetY: -240 },
-
-    // South Korea (x: 1540, y: 350) -> Offset approx (750, -230)
-    { num: 15, offsetX: 740, offsetY: -240 },
-    { num: 7, offsetX: 760, offsetY: -240 },
-    { num: 19, offsetX: 750, offsetY: -220 },
-
-    // Japan 1 (x: 1515, y: 470) -> Offset approx (725, -110)
-    { num: 10, offsetX: 715, offsetY: -120 },
-    { num: 5, offsetX: 735, offsetY: -120 },
-    { num: 19, offsetX: 725, offsetY: -100 },
-
-    // Japan 2 (x: 1653, y: 400) -> Offset approx (863, -180)
-    { num: 10, offsetX: 853, offsetY: -190 },
-    { num: 5, offsetX: 873, offsetY: -190 },
-    { num: 19, offsetX: 863, offsetY: -170 },
-  ];
-
-  // Shard numbers to display around Shard1 (approx center x:1157, y:397)
-  const shard1 = [
-    // Row 1 (y: -40)
-    { num: 12, offsetX: -55, offsetY: -40 },
-    { num: 8, offsetX: -35, offsetY: -40 },
-    { num: 15, offsetX: -15, offsetY: -40 },
-    { num: 20, offsetX: 5, offsetY: -40 },
-    { num: 5, offsetX: 25, offsetY: -40 },
-    { num: 11, offsetX: 45, offsetY: -40 },
-    // Row 2 (y: -20)
-    { num: 18, offsetX: -55, offsetY: -20 },
-    { num: 22, offsetX: -35, offsetY: -20 },
-    { num: 9, offsetX: -15, offsetY: -20 },
-    { num: 14, offsetX: 5, offsetY: -20 },
-    { num: 7, offsetX: 25, offsetY: -20 },
-    { num: 25, offsetX: 45, offsetY: -20 },
-    // Row 3 (y: 0)
-    { num: 30, offsetX: -55, offsetY: 0 },
-    { num: 16, offsetX: -35, offsetY: 0 },
-    { num: 4, offsetX: -15, offsetY: 0 },
-    { num: 21, offsetX: 5, offsetY: 0 },
-    { num: 12, offsetX: 25, offsetY: 0 },
-    { num: 19, offsetX: 45, offsetY: 0 },
-    // Row 4 (y: 20)
-    { num: 6, offsetX: -55, offsetY: 20 },
-    { num: 13, offsetX: -35, offsetY: 20 },
-    { num: 28, offsetX: -15, offsetY: 20 },
-    { num: 10, offsetX: 5, offsetY: 20 },
-    { num: 3, offsetX: 25, offsetY: 20 },
-    { num: 17, offsetX: 45, offsetY: 20 },
-    // Row 5 (y: 40)
-    { num: 15, offsetX: -55, offsetY: 40 },
-    { num: 9, offsetX: -35, offsetY: 40 },
-    { num: 23, offsetX: -15, offsetY: 40 },
-    { num: 11, offsetX: 5, offsetY: 40 },
-    { num: 8, offsetX: 25, offsetY: 40 },
-    { num: 14, offsetX: 45, offsetY: 40 },
-  ];
-
   const containerRef = useRef<HTMLDivElement>(null);
   const particlesRef = useRef<AnimParticle[]>([]);
 
@@ -320,9 +591,8 @@ export default function WorldMap({
     canvas.style.width = "100%";
     canvas.style.height = "100%";
     canvas.style.pointerEvents = "none";
-    canvas.style.zIndex = "9999"; // Topmost
+    canvas.style.zIndex = "9999";
 
-    // Fixed size to match the map container logic
     canvas.width = 1850;
     canvas.height = 1000;
 
@@ -330,86 +600,176 @@ export default function WorldMap({
     const ctx = canvas.getContext("2d");
 
     // 2. Animation Data
-    const addParticle = (from: {x:number, y:number}, to: {x:number, y:number}, color: string) => {
-        particlesRef.current.push({
-            fromX: from.x,
-            fromY: from.y,
-            toX: to.x,
-            toY: to.y,
-            startTime: Date.now(),
-            duration: 800 + Math.random() * 800, // 0.8s - 1.6s
-            color: color
-        });
+    const addParticle = (
+      from: { x: number; y: number },
+      to: { x: number; y: number },
+      color: string
+    ) => {
+      particlesRef.current.push({
+        fromX: from.x,
+        fromY: from.y,
+        toX: to.x,
+        toY: to.y,
+        startTime: Date.now(),
+        duration: 1000, // Speed up: 300~500ms
+        color: color,
+      });
     };
 
     // 3. Render Loop
     let animationFrameId: number;
 
     const render = () => {
-        if (!ctx) return;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        const now = Date.now();
+      if (!ctx) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const now = Date.now();
 
-        // Iterate backwards to allow safe removal
-        for (let i = particlesRef.current.length - 1; i >= 0; i--) {
-            const p = particlesRef.current[i];
-            const elapsed = now - p.startTime;
-            const t = elapsed / p.duration;
+      for (let i = particlesRef.current.length - 1; i >= 0; i--) {
+        const p = particlesRef.current[i];
+        const elapsed = now - p.startTime;
+        const t = elapsed / p.duration;
 
-            if (t >= 1) {
-                particlesRef.current.splice(i, 1);
-                continue;
-            }
-
-            // Linear Interpolation
-            const curX = (1 - t) * p.fromX + t * p.toX;
-            const curY = (1 - t) * p.fromY + t * p.toY;
-
-            ctx.fillStyle = p.color;
-            ctx.beginPath();
-            ctx.arc(curX, curY, 2.5, 0, Math.PI * 2); // Radius 2.5
-            ctx.fill();
+        if (t >= 1) {
+          particlesRef.current.splice(i, 1);
+          continue;
         }
 
-        animationFrameId = requestAnimationFrame(render);
+        const curX = (1 - t) * p.fromX + t * p.toX;
+        const curY = (1 - t) * p.fromY + t * p.toY;
+
+        ctx.fillStyle = p.color;
+        ctx.beginPath();
+        ctx.arc(curX, curY, 2.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      animationFrameId = requestAnimationFrame(render);
     };
     render();
 
-    // 4. Random Spawner Loop (The requested random behaviour)
-    // Spawns new particles every 50ms (20 per second)
-    const intervalId = setInterval(() => {
-        // Randomly pick direction
-        const fromShard0 = Math.random() > 0.5;
-        const sourceArr = fromShard0 ? shard0 : shard1;
-        const targetArr = fromShard0 ? shard1 : shard0;
+    interface LogEntry {
+      timestamp: string;
+      shard: number;
+      from_node: number;
+      to_node: number;
+      message_type: string;
+      category: string;
+      blockheight: number;
+      line: number;
+    }
+
+    // 2.5. Load first 2 lines from JSON log file 
+    const loadLogData = async () => {
+      try {
+        const response = await fetch('/log1.json');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
         
-        const sourceBaseX = fromShard0 ? SHARD_X_OFFSET_0 : SHARD_X_OFFSET_1;
-        const sourceBaseY = fromShard0 ? SHARD_Y_OFFSET_0 : SHARD_Y_OFFSET_1;
-        const targetBaseX = fromShard0 ? SHARD_X_OFFSET_1 : SHARD_X_OFFSET_0;
-        const targetBaseY = fromShard0 ? SHARD_Y_OFFSET_1 : SHARD_Y_OFFSET_0;
+        // Use standard JSON parsing since the file is a valid JSON array
+        const allData: LogEntry[] = await response.json();
+        const logEntries = allData.slice(0, 500); // 500개 정도 읽어서 테스트
 
-        // Pick random nodes
-        const startNode = sourceArr[Math.floor(Math.random() * sourceArr.length)];
-        const endNode = targetArr[Math.floor(Math.random() * targetArr.length)];
+        if (logEntries.length === 0) return;
 
-        addParticle(
-            { x: sourceBaseX + startNode.offsetX, y: sourceBaseY + startNode.offsetY },
-            { x: targetBaseX + endNode.offsetX, y: targetBaseY + endNode.offsetY },
-            "#000000" // Black colour as requested
-        );
+        // Parse timestamp helper
+        const parseTimestamp = (ts: string) => {
+          // Format: "YYYY/MM/DD HH:mm:ss.SSSSSS"
+          try {
+            const [datePart, timePart] = ts.split(' ');
+            const [h, m, sWithMicro] = timePart.split(':');
+            const [s, micro] = sWithMicro.split('.');
+            
+            // Create date object
+            const isoDateStr = `${datePart.replace(/\//g, '-')}T${h}:${m}:${s}.${micro.substring(0, 3)}`;
+            return new Date(isoDateStr).getTime();
+          } catch (e) {
+            console.error("Error parsing timestamp:", ts, e);
+            return Date.now();
+          }
+        };
 
-    }, 50);
+        const startTime = parseTimestamp(logEntries[0].timestamp);
+        console.log("Start Time:", startTime, "First Log:", logEntries[0].timestamp);
+
+        // Add animations for each log entry
+        logEntries.forEach((entry, index) => {
+          const shardId = entry.shard;
+          const fromNodeId = entry.from_node;
+          const toNodeId = entry.to_node;
+
+          if (SHARDS[shardId]) {
+            const fromNode = SHARDS[shardId].find(n => n.num === fromNodeId);
+            const toNode = SHARDS[shardId].find(n => n.num === toNodeId);
+
+            if (fromNode && toNode) {
+              // Calculate delay based on timestamp difference
+              const entryTime = parseTimestamp(entry.timestamp);
+              const delay = entryTime - startTime;
+
+              // Determine color based on category
+              let particleColor = "#FFFFFF"; // Default
+              if (entry.category === "vote_message") {
+                particleColor = "#FF00FF";
+              } else if (entry.category === "shard_message") {
+                particleColor = "#0000FF";
+              }
+
+              // Add delay between animations using timestamp difference
+              setTimeout(() => {
+                addParticle(
+                  { x: fromNode.x, y: fromNode.y },
+                  { x: toNode.x, y: toNode.y },
+                  particleColor
+                );
+              }, delay); // Using real-time difference
+            } else {
+               console.warn(`Node not found in shard ${shardId}: from ${fromNodeId}, to ${toNodeId}`);
+            }
+          }
+        });
+      } catch (error) {
+        console.error('Failed to load log data:', error);
+      }
+    };
+    
+    loadLogData();
+
+    // 4. Random Spawner Loop (비워놈 - 직접 구현하세요)
+    // const intervalId = setInterval(() => {
+    //   const srcId = Math.floor(Math.random() * SHARDS.length);
+    //   let dstId = Math.floor(Math.random() * (SHARDS.length - 1));
+    //   if (dstId >= srcId) dstId++;
+
+    //   const sourceArr = SHARDS[srcId];
+    //   const targetArr = SHARDS[dstId];
+
+    //   const startNode = sourceArr[Math.floor(Math.random() * sourceArr.length)];
+    //   const endNode = targetArr[Math.floor(Math.random() * targetArr.length)];
+
+    //   addParticle(
+    //     { x: startNode.x, y: startNode.y },
+    //     { x: endNode.x, y: endNode.y },
+    //     "#000000"
+    //   );
+    // }, 50);
 
     return () => {
-        clearInterval(intervalId);
-        cancelAnimationFrame(animationFrameId);
-        canvas.remove();
+      // clearInterval(intervalId);
+      cancelAnimationFrame(animationFrameId);
+      canvas.remove();
     };
-  }, [activeTab]); 
+  }, [activeTab]);
+
+    /*return () => {
+      // clearInterval(intervalId);
+      cancelAnimationFrame(animationFrameId);
+      canvas.remove();
+    };
+  }, [activeTab]);*/
 
   return (
     <div className="relative w-full h-full bg-[#EEEEEE] flex items-center justify-center overflow-hidden">
-      {/* Fixed size container matching Figma: 1850x1000 */}
       <div
         ref={containerRef}
         className="relative bg-[#EEEEEE] overflow-visible flex-shrink-0"
@@ -417,7 +777,6 @@ export default function WorldMap({
       >
         {/* Background continent shapes */}
         <div className="absolute inset-0 pointer-events-none">
-          {/* Top left cluster - North America */}
           <svg
             className="absolute opacity-100"
             style={{
@@ -435,7 +794,6 @@ export default function WorldMap({
             />
           </svg>
 
-          {/* Top center cluster */}
           <svg
             className="absolute opacity-100"
             style={{
@@ -453,10 +811,9 @@ export default function WorldMap({
             />
           </svg>
 
-          {/* Large top right - Asia */}
           <svg
             className="absolute opacity-100"
-            style={{
+            style={{  
               left: "577px",
               top: "0px",
               width: "1260px",
@@ -471,7 +828,6 @@ export default function WorldMap({
             />
           </svg>
 
-          {/* Bottom left cluster - South America */}
           <svg
             className="absolute opacity-100"
             style={{
@@ -489,7 +845,6 @@ export default function WorldMap({
             />
           </svg>
 
-          {/* Bottom right - Australia */}
           <svg
             className="absolute opacity-100"
             style={{
@@ -507,7 +862,6 @@ export default function WorldMap({
             />
           </svg>
 
-          {/* Right middle cluster */}
           <svg
             className="absolute opacity-100"
             style={{
@@ -526,7 +880,7 @@ export default function WorldMap({
           </svg>
         </div>
 
-        {/* Individual marker backgrounds with unique SVG shapes */}
+        {/* Individual marker backgrounds */}
         <div className="absolute inset-0">
           {pinGroups.map((group, index) => (
             <React.Fragment key={index}>{group.bgSvg}</React.Fragment>
@@ -548,69 +902,39 @@ export default function WorldMap({
           </div>
         ))}
 
-        {/* Numbered shard indicators around Shard0 */}
+        {/* 33개 샤드 번호 표시 (절대좌표) */}
         {showShardNumbers &&
-          shard0.map((shard, index) => (
-            <div
-              key={`shard0-${index}`}
-              className="absolute flex items-center justify-center"
-              style={{
-                left: `${SHARD_X_OFFSET_0 + shard.offsetX}px`,
-                top: `${SHARD_Y_OFFSET_0 + shard.offsetY}px`,
-                width: "18px",
-                height: "18px",
-                borderRadius: "50%",
-                backgroundColor: "#000",
-                zIndex: 15,
-              }}
-            >
-              <span
+          SHARDS.map((nodes, shardId) =>
+            nodes.map((node, idx) => (
+              <div
+                key={`shard-${shardId}-${idx}`}
+                className="absolute flex items-center justify-center"
                 style={{
-                  color: "#FFF",
-                  fontSize: "9px",
-                  fontWeight: "800",
-                  lineHeight: "10px",
-                  letterSpacing: "-0.3px",
-                  fontFamily:
-                    "Outfit, -apple-system, Roboto, Helvetica, sans-serif",
+                  left: `${node.x}px`,
+                  top: `${node.y}px`,
+                  width: "17px",
+                  height: "17px",
+                  borderRadius: "50%",
+                  backgroundColor: "#000",
+                  zIndex: 15,
                 }}
               >
-                {shard.num}
-              </span>
-            </div>
-          ))}
-
-        {/* Numbered shard indicators around Shard1 */}
-        {showShardNumbers &&
-          shard1.map((shard, index) => (
-            <div
-              key={`shard1-${index}`}
-              className="absolute flex items-center justify-center"
-              style={{
-                left: `${SHARD_X_OFFSET_1 + shard.offsetX}px`,
-                top: `${SHARD_Y_OFFSET_1 + shard.offsetY}px`,
-                width: "18px",
-                height: "18px",
-                borderRadius: "50%",
-                backgroundColor: "#000",
-                zIndex: 15,
-              }}
-            >
-              <span
-                style={{
-                  color: "#FFF",
-                  fontSize: "9px",
-                  fontWeight: "800",
-                  lineHeight: "10px",
-                  letterSpacing: "-0.3px",
-                  fontFamily:
-                    "Outfit, -apple-system, Roboto, Helvetica, sans-serif",
-                }}
-              >
-                {shard.num}
-              </span>
-            </div>
-          ))}
+                <span
+                  style={{
+                    color: "#FFF",
+                    fontSize: "10px",
+                    fontWeight: "800",
+                    lineHeight: "10px",
+                    letterSpacing: "-0.3px",
+                    fontFamily:
+                      "Outfit, -apple-system, Roboto, Helvetica, sans-serif",
+                  }}
+                >
+                  {shardId}
+                </span>
+              </div>
+            ))
+          )}
       </div>
     </div>
   );
