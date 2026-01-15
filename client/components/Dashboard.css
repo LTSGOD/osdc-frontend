@@ -55,37 +55,31 @@
 /* 로그 컨테이너 */
 .log-container {
   display: flex;
-  height: 213px;
+  flex-direction: column;
+  flex: 1;
   padding: 4px 8px;
   align-items: flex-start;
-  flex-shrink: 0;
   align-self: stretch;
   overflow-y: auto;
   border-right: 1px solid #000;
   box-sizing: border-box;
   background-color: #ffffff;
+  color: #000;
+  font-family: "Inter", -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 17px; /* 130.769% */
 }
 
 .log-header {
-  color: #000;
-  font-family: "Inter", -apple-system, Roboto, Helvetica, sans-serif;
-  font-size: 13px;
-  font-style: normal;
   font-weight: 400;
-  line-height: 17px; /* 130.769% */
   margin-bottom: 0;
-  white-space: pre-wrap;
 }
 
 .log-entry {
-  color: #000;
-  font-family: "Inter", -apple-system, Roboto, Helvetica, sans-serif;
-  font-size: 13px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 17px; /* 130.769% */
   white-space: pre-wrap;
-  word-break: break-all;
+  word-break: break-word;
 }
 
 /* 우측 메인 영역 */
