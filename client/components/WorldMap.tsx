@@ -447,10 +447,10 @@ const FRAGMENT_SHADER = `
 `;
 
 const COLOR_MAP: Record<string, [number, number, number]> = {
-  "default": [1, 1, 1],
-  "vote_message": [1, 0, 1],
-  "shard_message": [0, 0.5, 1],
-  "committee_change_message": [1, 0.65, 0],
+  "default": [1, 1, 1],                    // #FFFFFF (흰색)
+  "vote_message": [1, 0, 1],               // #FF00FF (마젠타)
+  "shard_message": [0, 0, 1],              // #0000FF (파란색) ← 수정됨
+  "committee_change_message": [1, 0.65, 0], // #FFA500 (주황색)
 };
 
 const MAX_PARTICLES = 50000;
@@ -468,7 +468,7 @@ function createShader(gl: WebGLRenderingContext, type: number, source: string) {
 }
 
 export interface WorldMapHandle {
-  addParticle: (shardId: number, fromNodeId: number, toNodeId: number, category?: string) => void;
+  addParticle: (fromShardId: number, toShardId: number, fromNodeId: number, toNodeId: number, category?: string) => void;
 }
 
 const WorldMap = forwardRef<WorldMapHandle, WorldMapProps>(({ showShardNumbers = false, activeTab = 1 }, ref) => {
@@ -476,17 +476,18 @@ const WorldMap = forwardRef<WorldMapHandle, WorldMapProps>(({ showShardNumbers =
   const particlesRef = useRef<AnimParticle[]>([]);
 
   useImperativeHandle(ref, () => ({
-    addParticle: (shardId, fromNodeId, toNodeId, category) => {
-      if (!SHARDS[shardId]) return;
-      const fromNode = SHARDS[shardId].find(n => n.num === fromNodeId);
-      const toNode = SHARDS[shardId].find(n => n.num === toNodeId);
+    addParticle: (fromShardId, toShardId, fromNodeId, toNodeId, category) => {
+      const fromNode = SHARDS[fromShardId]?.find(n => n.num === fromNodeId);
+      const toNode = SHARDS[toShardId]?.find(n => n.num === toNodeId);
       if (fromNode && toNode) {
         const color = COLOR_MAP[category || "default"] || COLOR_MAP["default"];
+        // duration: 800~820ms 랜덤
+        const duration = 800 + Math.random() * 20;
         particlesRef.current.push({
           fromX: fromNode.x, fromY: fromNode.y,
           toX: toNode.x, toY: toNode.y,
           startTime: performance.now(),
-          duration: 800,
+          duration,
           r: color[0], g: color[1], b: color[2],
         });
         if (particlesRef.current.length > MAX_PARTICLES) {
