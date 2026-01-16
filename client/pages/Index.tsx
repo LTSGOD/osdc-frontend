@@ -1,9 +1,9 @@
-import WorldMap from "@/components/WorldMap";
+import WorldMap, { WorldMapHandle } from "@/components/WorldMap";
 import Dashboard from "@/components/Dashboard";
 import TPSChart from "@/components/charts/TPSChart";
 import LatencyChart from "@/components/charts/LatencyChart";
 import CoordinationShardView from "@/components/CoordinationShardView";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 interface LogEntry {
   second: number;
@@ -37,12 +37,25 @@ export default function Index() {
   const [logs, setLogs] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState(1);
   const [timeSeriesData, setTimeSeriesData] = useState<LogEntry[]>([]);
-  const [rawLogs, setRawLogs] = useState<{ timestamp: number; text: string }[]>(
-    [],
-  );
+  
+  // Use ref for raw logs to avoid re-rendering and memory issues with large datasets
+  const rawLogsRef = useRef<{ timestamp: number; text: string }[]>([]);
+  const mainLogsRef = useRef<string[]>([]); // Store full main logs
+  const mainLogCursorRef = useRef(0);       // Track current position in main logs
+  const worldMapRef = useRef<WorldMapHandle>(null);
 
   useEffect(() => {
-    // Fetch metrics data
+    // Fetch raw logs for display (main.4134.log)
+    fetch("/api/raw-logs")
+      .then((res) => res.text())
+      .then((text) => {
+        const lines = text.split("\n").filter((l) => l.trim() !== "");
+        // Store all lines in ref for streaming playback
+        mainLogsRef.current = lines;
+      })
+      .catch((err) => console.error("Failed to load raw logs:", err));
+
+    // Fetch metrics data (Keep existing logic for charts)
     fetch("/api/logs")
       .then((res) => {
         if (!res.ok) {
@@ -57,61 +70,102 @@ export default function Index() {
       })
       .catch((err) => console.error("Failed to load logs:", err));
 
-    // Fetch raw logs
-    fetch("/api/raw-logs")
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to load raw logs");
-        return res.text();
-      })
-      .then((text) => {
-        const lines = text.split("\n");
-        const parsed = lines
-          .map((line) => {
-            // Match: 2025/08/28 05:18:49.563399
-            const match = line.match(
-              /(\d{4}\/\d{2}\/\d{2} \d{2}:\d{2}:\d{2}\.\d+)/,
-            );
-            if (match) {
-              const dateStr = match[1].replace(/\//g, "-").replace(" ", "T") + "Z";
-              const timestamp = new Date(dateStr).getTime();
-              return { timestamp, text: line };
+    // WebSocket connection for log.json (Animation Data)
+    const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+    const wsHost = window.location.host; // Use current host (works with Vite proxy setup)
+    const wsUrl = `${protocol}//${wsHost}/ws/logs`;
+    
+    console.log("Connecting to WebSocket at:", wsUrl);
+    const ws = new WebSocket(wsUrl);
+    
+    // Buffer for WS messages
+    let buffer: { timestamp: number; text: string }[] = [];
+    const flushInterval = setInterval(() => {
+        if (buffer.length > 0) {
+            // Sort buffer to ensure local order
+            buffer.sort((a, b) => a.timestamp - b.timestamp);
+            
+            // Push to main ref
+            for (let i = 0; i < buffer.length; i++) {
+                rawLogsRef.current.push(buffer[i]);
             }
-            return null;
-          })
-          .filter(
-            (l): l is { timestamp: number; text: string } => l !== null,
-          );
-        setRawLogs(parsed);
-      })
-      .catch((err) => console.error(err));
+            // Clear reference
+            buffer = [];
+        }
+    }, 500);
+
+    ws.onopen = () => {
+      console.log("Connected to Log WebSocket");
+    };
+
+    ws.onerror = (error) => {
+      console.error("WebSocket connection error:", error);
+    };
+
+    ws.onmessage = (event) => {
+      try {
+        const msg = JSON.parse(event.data);
+        // console.log("WS Received:", msg); // Added for debugging
+        
+        if (msg.type === "complete" || msg.type === "error" || msg.type === "status") {
+            // console.log("WS Message:", msg);
+            return;
+        }
+        
+        if (msg.type === 'batch' && Array.isArray(msg.data)) {
+            // Processing batch
+            msg.data.forEach((logStr: string) => {
+                 try {
+                     const logObj = JSON.parse(logStr);
+                     if (logObj.timestamp) {
+                         // Fix timestamp format: "YYYY/MM/DD HH:MM:SS.mmm" -> ISO
+                         const dateStr = logObj.timestamp.replace(/\//g, "-").replace(" ", "T") + "Z";
+                         const timestamp = new Date(dateStr).getTime();
+                         const text = logStr; // Use the raw string from server
+                         buffer.push({ timestamp, text });
+                     }
+                 } catch (e) {
+                     // ignore single log parse error
+                 }
+            });
+        }
+      } catch (e) {
+         console.error("WS Parse Error", e);
+      }
+    };
+
+    return () => {
+      ws.close();
+      clearInterval(flushInterval);
+    };
   }, []);
 
   useEffect(() => {
-    if (timeSeriesData.length === 0 || rawLogs.length === 0) return;
+    // Only start simulation loop if we have some data (either charts or logs)
+    if (timeSeriesData.length === 0 && rawLogsRef.current.length === 0) return;
 
     // Configuration
-    const LOG_SPEED_MULTIPLIER = 10; // Logs run 10x faster
-    const CHART_UPDATE_INTERVAL = 1000; // Charts update every 1s (real-time for 1s data)
-    const LOG_UPDATE_INTERVAL = 100; // Check for logs every 100ms
+    const LOG_SPEED_MULTIPLIER = 10;
+    const CHART_UPDATE_INTERVAL = 1000;
+    const LOG_UPDATE_INTERVAL = 100;
     
     // State for simulation
-    let currentLogSimTime = new Date(timeSeriesData[0].timestamp).getTime();
+    let currentLogSimTime = 0; 
     let currentChartIndex = 0;
+    
+    let logCursor = 0;
+    let lastLogLength = 0;
     
     // 1. Chart/Metrics Interval (Runs every 1 second)
     const chartInterval = setInterval(() => {
+        if (timeSeriesData.length === 0) return;
+
         if (currentChartIndex >= timeSeriesData.length) {
             currentChartIndex = 0; // Loop charts
-             // Sync log time when charts loop, or keep them independent? 
-             // Usually better to restart logs too if everything loops
-            currentLogSimTime = new Date(timeSeriesData[0].timestamp).getTime();
         }
 
         const currentData = timeSeriesData[currentChartIndex];
         const timeStr = currentData.second.toString();
-
-        const randomLeaderTime = "00.00";
-        const randomCommitteeTime = "00.00";
 
         setMetrics({
           totalTPS: currentData.tps,
@@ -119,8 +173,8 @@ export default function Index() {
           avgSingleShardLatency: currentData.avgLocalLatency,
           avgCrossShardLatency: currentData.avgCrossLatency ?? 0,
           totalTransactions: currentData.cumulativeTx,
-          leaderChangeTime: randomLeaderTime,
-          committeeChangeTime: randomCommitteeTime,
+          leaderChangeTime: "00.00",
+          committeeChangeTime: "00.00",
           blockHeight: currentData.second,
         });
 
@@ -142,31 +196,102 @@ export default function Index() {
 
     // 2. Log Interval (Runs fast)
     const logInterval = setInterval(() => {
-        const endTime = new Date(timeSeriesData[timeSeriesData.length - 1].timestamp).getTime();
+        // --- 1. Stream Main Logs (Visual Only) ---
+        if (mainLogsRef.current.length > 0) {
+            const BATCH_SIZE = 2; // Add 2 lines per tick
+            const start = mainLogCursorRef.current;
+            const end = Math.min(start + BATCH_SIZE, mainLogsRef.current.length);
+            
+            if (start < mainLogsRef.current.length) {
+                const newLines = mainLogsRef.current.slice(start, end);
+                setLogs(prev => [...prev, ...newLines].slice(-100)); // Keep last 100
+                mainLogCursorRef.current = end;
+            } else {
+                 // Optional: Loop main logs?
+                 // mainLogCursorRef.current = 0;
+            }
+        }
+
+        // --- 2. Process Animation Logs (log.json) ---
+        const allLogs = rawLogsRef.current;
+        if (allLogs.length === 0) return;
+
+        // Reset cursor if logs array changed significantly (e.g. restart) or check length
+        if (allLogs.length < lastLogLength) {
+             logCursor = 0;
+        }
+        lastLogLength = allLogs.length;
+
+        // Initialize log time if needed
+        if (currentLogSimTime === 0) {
+             currentLogSimTime = allLogs[0].timestamp;
+             console.log("Log simulation started at:", new Date(currentLogSimTime).toLocaleString());
+        }
+
+        // Gap Skipping Logic
+        if (logCursor < allLogs.length) {
+            const nextLog = allLogs[logCursor];
+            // If the next log is more than 2 seconds in the future, jump gap
+            if (nextLog.timestamp > currentLogSimTime + 2000) { 
+                 // console.log(`[Sim] Jumping gap`);
+                 currentLogSimTime = nextLog.timestamp - 100;
+            }
+        }
+
+        const endTime = allLogs[allLogs.length - 1].timestamp;
         
+        // If we reached the end of available logs
         if (currentLogSimTime >= endTime) {
-             // If logs finish before charts, loop them or wait?
-             // Let's loop them for continuous activity
-            currentLogSimTime = new Date(timeSeriesData[0].timestamp).getTime();
+            // Live Stream Mode: Just wait for more data, do not loop automatically if streaming
+            // Unless we are explicitly in "Demo playback" mode. 
+            // For now, let's stick to waiting at the edge.
         }
 
         // Advance log time
         const timeIncrement = LOG_UPDATE_INTERVAL * LOG_SPEED_MULTIPLIER;
+        let targetTime = currentLogSimTime + timeIncrement;
 
-        const logsInWindow = rawLogs.filter(
-        (l) =>
-          l.timestamp >= currentLogSimTime &&
-          l.timestamp < currentLogSimTime + timeIncrement,
-        );
+        // Prevent simulation from running past the available data (Live Mode Safety)
+        if (targetTime > endTime) {
+             targetTime = endTime; 
+             // If we are clamped, we process up to the very last log, then wait.
+        }
 
-        if (logsInWindow.length > 0) {
-            setLogs((prev) => {
-            const newEntries = logsInWindow.map((l) => l.text);
-            return [...prev, ...newEntries].slice(-20);
+        const newLogs: string[] = [];
+
+        // Scan logs
+        for (let i = logCursor; i < allLogs.length; i++) {
+            const l = allLogs[i];
+            if (l.timestamp < currentLogSimTime) {
+                continue;
+            }
+            if (l.timestamp >= targetTime) {
+                logCursor = i;
+                break;
+            }
+            
+            newLogs.push(l.text);
+            if (i === allLogs.length - 1) {
+                logCursor = allLogs.length;
+            }
+        }
+        
+        if (newLogs.length > 0) {
+            // Trigger animations
+            newLogs.forEach(logStr => {
+                try {
+                    const entry = JSON.parse(logStr);
+                    // Pass to WorldMap
+                    if (entry.shard !== undefined && entry.from_node !== undefined && entry.to_node !== undefined) {
+                         worldMapRef.current?.addParticle(entry.shard, entry.from_node, entry.to_node, entry.category);
+                    }
+                } catch(e) {
+                    // Ignore parse errors
+                }
             });
         }
         
-        currentLogSimTime += timeIncrement;
+        currentLogSimTime = targetTime;
 
     }, LOG_UPDATE_INTERVAL);
 
@@ -174,7 +299,7 @@ export default function Index() {
         clearInterval(chartInterval);
         clearInterval(logInterval);
     };
-  }, [timeSeriesData, rawLogs]);
+  }, [timeSeriesData]); 
 
   return (
     <Dashboard
@@ -195,9 +320,9 @@ export default function Index() {
       activeTab={activeTab}
       onTabChange={setActiveTab}
     >
-      {activeTab === 1 && <WorldMap showShardNumbers={true} activeTab={1} />}
+      {activeTab === 1 && <WorldMap ref={worldMapRef} showShardNumbers={true} activeTab={1} />}
       {activeTab === 2 && <CoordinationShardView />}
-      {activeTab === 3 && <WorldMap showShardNumbers={false} activeTab={3} />}
+      {activeTab === 3 && <WorldMap ref={worldMapRef} showShardNumbers={false} activeTab={3} />}
     </Dashboard>
   );
 }

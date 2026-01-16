@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useImperativeHandle, forwardRef } from "react";
 import LocationPin from "./LocationPin";
 
 interface PinGroup {
@@ -24,7 +24,7 @@ interface AnimParticle {
 }
 
 // 33개 샤드별 노드 (절대좌표 x, y로 직접 저장)
-const SHARDS: Array<{ num: number; x: number; y: number }[]> = [
+export const SHARDS: Array<{ num: number; x: number; y: number }[]> = [
   // Shard 0
   [
     { num: 1, x: 1430, y: 265 }, //서울1
@@ -573,12 +573,47 @@ const pinGroups: PinGroup[] = [
   },
 ];
 
-export default function WorldMap({
+export interface WorldMapHandle {
+  addParticle: (shardId: number, fromNodeId: number, toNodeId: number, category?: string) => void;
+}
+
+const WorldMap = forwardRef<WorldMapHandle, WorldMapProps>(({
   showShardNumbers = false,
   activeTab = 1,
-}: WorldMapProps) {
+}, ref) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const particlesRef = useRef<AnimParticle[]>([]);
+
+  // Expose methods to parent
+  useImperativeHandle(ref, () => ({
+    addParticle: (shardId: number, fromNodeId: number, toNodeId: number, category?: string) => {
+        if (!SHARDS[shardId]) return;
+        
+        const fromNode = SHARDS[shardId].find(n => n.num === fromNodeId);
+        const toNode = SHARDS[shardId].find(n => n.num === toNodeId);
+        
+        if (fromNode && toNode) {
+            let particleColor = "#FFFFFF"; // Default
+            if (category === "vote_message") {
+                particleColor = "#FF00FF";
+            } else if (category === "shard_message") {
+                particleColor = "#0000FF";
+            } else if (category === "committee_change_message") {
+                 particleColor = "#FFA500";
+            }
+            
+            particlesRef.current.push({
+                fromX: fromNode.x,
+                fromY: fromNode.y,
+                toX: toNode.x,
+                toY: toNode.y,
+                startTime: Date.now(),
+                duration: 1000,
+                color: particleColor,
+            });
+        }
+    }
+  }));
 
   useEffect(() => {
     if (!containerRef.current || activeTab === 3) return;
@@ -659,100 +694,9 @@ export default function WorldMap({
     }
 
     // 2.5. Load first 2 lines from JSON log file 
-    const loadLogData = async () => {
-      try {
-        const response = await fetch('/log1.json');
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        // Use standard JSON parsing since the file is a valid JSON array
-        const allData: LogEntry[] = await response.json();
-        const logEntries = allData.slice(0, 500); // 500개 정도 읽어서 테스트
-
-        if (logEntries.length === 0) return;
-
-        // Parse timestamp helper
-        const parseTimestamp = (ts: string) => {
-          // Format: "YYYY/MM/DD HH:mm:ss.SSSSSS"
-          try {
-            const [datePart, timePart] = ts.split(' ');
-            const [h, m, sWithMicro] = timePart.split(':');
-            const [s, micro] = sWithMicro.split('.');
-            
-            // Create date object
-            const isoDateStr = `${datePart.replace(/\//g, '-')}T${h}:${m}:${s}.${micro.substring(0, 3)}`;
-            return new Date(isoDateStr).getTime();
-          } catch (e) {
-            console.error("Error parsing timestamp:", ts, e);
-            return Date.now();
-          }
-        };
-
-        const startTime = parseTimestamp(logEntries[0].timestamp);
-        console.log("Start Time:", startTime, "First Log:", logEntries[0].timestamp);
-
-        // Add animations for each log entry
-        logEntries.forEach((entry, index) => {
-          const shardId = entry.shard;
-          const fromNodeId = entry.from_node;
-          const toNodeId = entry.to_node;
-
-          if (SHARDS[shardId]) {
-            const fromNode = SHARDS[shardId].find(n => n.num === fromNodeId);
-            const toNode = SHARDS[shardId].find(n => n.num === toNodeId);
-
-            if (fromNode && toNode) {
-              // Calculate delay based on timestamp difference
-              const entryTime = parseTimestamp(entry.timestamp);
-              const delay = entryTime - startTime;
-
-              // Determine color based on category
-              let particleColor = "#FFFFFF"; // Default
-              if (entry.category === "vote_message") {
-                particleColor = "#FF00FF";
-              } else if (entry.category === "shard_message") {
-                particleColor = "#0000FF";
-              }
-
-              // Add delay between animations using timestamp difference
-              setTimeout(() => {
-                addParticle(
-                  { x: fromNode.x, y: fromNode.y },
-                  { x: toNode.x, y: toNode.y },
-                  particleColor
-                );
-              }, delay); // Using real-time difference
-            } else {
-               console.warn(`Node not found in shard ${shardId}: from ${fromNodeId}, to ${toNodeId}`);
-            }
-          }
-        });
-      } catch (error) {
-        console.error('Failed to load log data:', error);
-      }
-    };
+    // const loadLogData = async () => { ... } // REMOVED: Managed by Parent via useImperativeHandle
     
-    loadLogData();
-
-    // 4. Random Spawner Loop (비워놈 - 직접 구현하세요)
-    // const intervalId = setInterval(() => {
-    //   const srcId = Math.floor(Math.random() * SHARDS.length);
-    //   let dstId = Math.floor(Math.random() * (SHARDS.length - 1));
-    //   if (dstId >= srcId) dstId++;
-
-    //   const sourceArr = SHARDS[srcId];
-    //   const targetArr = SHARDS[dstId];
-
-    //   const startNode = sourceArr[Math.floor(Math.random() * sourceArr.length)];
-    //   const endNode = targetArr[Math.floor(Math.random() * targetArr.length)];
-
-    //   addParticle(
-    //     { x: startNode.x, y: startNode.y },
-    //     { x: endNode.x, y: endNode.y },
-    //     "#000000"
-    //   );
-    // }, 50);
+    // loadLogData();
 
     return () => {
       // clearInterval(intervalId);
@@ -760,13 +704,6 @@ export default function WorldMap({
       canvas.remove();
     };
   }, [activeTab]);
-
-    /*return () => {
-      // clearInterval(intervalId);
-      cancelAnimationFrame(animationFrameId);
-      canvas.remove();
-    };
-  }, [activeTab]);*/
 
   return (
     <div className="relative w-full h-full bg-[#EEEEEE] flex items-center justify-center overflow-hidden">
@@ -938,4 +875,6 @@ export default function WorldMap({
       </div>
     </div>
   );
-}
+});
+
+export default WorldMap;
