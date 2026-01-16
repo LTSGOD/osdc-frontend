@@ -6,16 +6,13 @@ import CoordinationShardView from "@/components/CoordinationShardView";
 import { useState, useEffect, useRef } from "react";
 
 interface LogEntry {
-  second: number;
-  timestamp: string;
+  second_offset: number;
   tps: number;
   avgSingleShardTPS: number;
-  cumulativeTx: number;
-  events: number;
-  activeShards: number;
-  avgLocalLatency: number;
-  avgCrossLatency: number | null;
-  transactionConfirmationTime: number;
+  avg_latency_seconds_local: number;
+  avg_latency_seconds_cross: number | null;
+  transaction_confirmation_time: number;
+  cumulative_tx: number;
 }
 
 export default function Index() {
@@ -63,9 +60,19 @@ export default function Index() {
         }
         return res.json();
       })
-      .then((data: LogEntry[]) => {
+      .then((data: any[]) => {
         if (Array.isArray(data)) {
-          setTimeSeriesData(data);
+          // Map new field names to LogEntry
+          const mapped = data.map((d) => ({
+            second_offset: d.second_offset,
+            tps: d.tps,
+            avgSingleShardTPS: d.avgSingleShardTPS,
+            avg_latency_seconds_local: d.avg_latency_seconds_local,
+            avg_latency_seconds_cross: d.avg_latency_seconds_cross,
+            transaction_confirmation_time: d.transaction_confirmation_time,
+            cumulative_tx: d.cumulative_tx,
+          }));
+          setTimeSeriesData(mapped);
         }
       })
       .catch((err) => console.error("Failed to load logs:", err));
@@ -158,40 +165,40 @@ export default function Index() {
     
     // 1. Chart/Metrics Interval (Runs every 1 second)
     const chartInterval = setInterval(() => {
-        if (timeSeriesData.length === 0) return;
+      if (timeSeriesData.length === 0) return;
 
-        if (currentChartIndex >= timeSeriesData.length) {
-            currentChartIndex = 0; // Loop charts
-        }
+      if (currentChartIndex >= timeSeriesData.length) {
+        currentChartIndex = 0; // Loop charts
+      }
 
-        const currentData = timeSeriesData[currentChartIndex];
-        const timeStr = currentData.second.toString();
+      const currentData = timeSeriesData[currentChartIndex];
+      const timeStr = currentData.second_offset.toString();
 
-        setMetrics({
-          totalTPS: currentData.tps,
-          avgSingleShardTPS: currentData.avgSingleShardTPS,
-          avgSingleShardLatency: currentData.avgLocalLatency,
-          avgCrossShardLatency: currentData.avgCrossLatency ?? 0,
-          totalTransactions: currentData.cumulativeTx,
-          leaderChangeTime: "00.00",
-          committeeChangeTime: "00.00",
-          blockHeight: currentData.second,
-        });
+      setMetrics({
+        totalTPS: currentData.tps,
+        avgSingleShardTPS: currentData.avgSingleShardTPS,
+        avgSingleShardLatency: currentData.avg_latency_seconds_local,
+        avgCrossShardLatency: currentData.avg_latency_seconds_cross ?? 0,
+        totalTransactions: currentData.cumulative_tx,
+        leaderChangeTime: "00.00",
+        committeeChangeTime: "00.00",
+        blockHeight: currentData.second_offset,
+      });
 
-        setTpsData((prev) => {
-            const newData = [...prev, { time: timeStr, value: currentData.tps }];
-            return newData.slice(-50);
-        });
+      setTpsData((prev) => {
+        const newData = [...prev, { time: timeStr, value: currentData.tps }];
+        return newData.slice(-50);
+      });
 
-        setLatencyData((prev) => {
-            const newData = [
-                ...prev,
-                { time: timeStr, value: currentData.transactionConfirmationTime },
-            ];
-            return newData.slice(-50);
-        });
+      setLatencyData((prev) => {
+        const newData = [
+          ...prev,
+          { time: timeStr, value: currentData.transaction_confirmation_time },
+        ];
+        return newData.slice(-50);
+      });
 
-        currentChartIndex++;
+      currentChartIndex++;
     }, CHART_UPDATE_INTERVAL);
 
     // 2. Log Interval (Runs fast)
