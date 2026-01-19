@@ -167,11 +167,9 @@ const CoordinationShardView: React.FC = () => {
       { id: 20, x: 1103, y: 577, pieType: "quarter" },
       { id: 21, x: 415, y: 577, pieType: "full-pie" },
       { id: 22, x: 257, y: 510, pieType: "wedge-down" },
-
       { id: 23, x: 256, y: 195, pieType: "small-wedge" },
       { id: 24, x: 415, y: 128, pieType: "wedge-down" },
       { id: 25, x: 1388, y: 93, pieType: "half-pie" },
-
       { id: 26, x: 1448, y: 274, pieType: "right-half" },
       { id: 27, x: 1448, y: 432, pieType: "half-pie" },
       { id: 28, x: 1338, y: 611, pieType: "wedge-down" },
@@ -209,26 +207,115 @@ const CoordinationShardView: React.FC = () => {
           height: "734px",
         }}
       >
-        {/* Connection Lines Layer */}
+        {/* Connection Lines Layer - Spider Web */}
         <svg
           style={{
             position: "absolute",
-            width: "1565px",
-            height: "734px",
+            left: "-121px",
+            top: "-230px",
+            width: "1871px",
+            height: "1212px",
           }}
+          viewBox="0 0 1871 1212"
           fill="none"
         >
+          {/* Inner octagon ring */}
           <path
             d="M749.5 443.5L903.5 418L1058.5 444.5L1112 606L1058 770L904 792.5L750 770L695.5 607L749.5 443.5Z"
             stroke="black"
             strokeOpacity="0.25"
           />
+
+          {/* Middle octagon ring */}
           <path
             d="M982 314L825.5 313.5L560 382L562 528V686.5L560 831L826 898H982L1248 831V686.5V528L1249 383.5L982 314Z"
             stroke="black"
             strokeOpacity="0.25"
           />
 
+          {/* Inner connecting lines */}
+          <path
+            d="M750 771.5L560.5 830.5L696.5 605.5L560.5 690M560.5 529L750 442.5L560.5 381.5M827.5 312.5L903.5 417.5L982 313.5L1059.5 442.5"
+            stroke="black"
+            strokeOpacity="0.25"
+          />
+
+          {/* Outer ring bottom */}
+          <path
+            d="M401 606.5L402 764L591 963.807L905 1059.73L1217.37 963.807L1406 764.5L1406.5 608"
+            stroke="black"
+            strokeOpacity="0.25"
+          />
+
+          {/* Outer ring top */}
+          <path
+            d="M401 607.233V449.733L591 249.925L905 154L1217.37 249.925L1405.5 449.5L1406.5 605.733"
+            stroke="black"
+            strokeOpacity="0.25"
+          />
+
+          {/* Extreme outer lines - right bottom */}
+          <path
+            d="M904.5 1211.75L1126 1211.99L1411.47 1075.5L1533 865L1594.5 685V606.25"
+            stroke="black"
+            strokeOpacity="0.25"
+          />
+
+          {/* Extreme outer lines - right top */}
+          <path
+            d="M904.5 0.240723L1126 -0.00012207L1411.47 136.491L1533 346.991L1593 528.5L1594.5 605.741"
+            stroke="black"
+            strokeOpacity="0.25"
+          />
+
+          {/* Extreme outer lines - left bottom */}
+          <path
+            d="M904.5 1211.75L683 1211.99L397.532 1075.5L275 865L214.5 685V606.25"
+            stroke="black"
+            strokeOpacity="0.25"
+          />
+
+          {/* Extreme outer lines - left top */}
+          <path
+            d="M904.5 0.240723L683 -0.00012207L397.532 136.491L275 347L214.5 526.991V605.741"
+            stroke="black"
+            strokeOpacity="0.25"
+          />
+
+          {/* Right side inner connections */}
+          <path
+            d="M1058 444.5L1249 383.5L1112.5 605.5L1249 529M1249 686.5L1058 769.5L982 898L904.5 793.5M826.5 898.5L750 769.5"
+            stroke="black"
+            strokeOpacity="0.25"
+          />
+
+          {/* Right side outer connections */}
+          <path
+            d="M1249.5 380.5L1405.5 449.5L1249.5 686L1406 764.5L1248 831L1170.5 1042.5"
+            stroke="black"
+            strokeOpacity="0.25"
+          />
+
+          {/* Diagonal connection */}
+          <path
+            d="M982 897.5L1191 1017.5"
+            stroke="black"
+            strokeOpacity="0.25"
+          />
+
+          {/* Extreme outer connections */}
+          <path
+            d="M1533 865L1727.5 1082M1593 686L1870.5 652.5L1593 528M1533 347L1788 250M275 347L51.5 414.5L215 528M215 688L0 771L275.5 865.5L73 1082"
+            stroke="black"
+            strokeOpacity="0.25"
+          />
+
+          {/* Complex web connections */}
+          <path
+            d="M856.5 1038.5L822 899M593 969L562.5 829.5L402.5 764M402.5 764L215 528M402.5 764L215 688.5M402.5 764L374 1123M562.5 687.5L400.5 449M400.5 449L562.5 528.5M400.5 449L560 382L590.5 250.5M400.5 449L275 347L590.5 250.5M909.5 168.5L981 315L1218.5 250.5L1396 110.5M590.5 250.5L831.5 316M1535.5 871.5L1406 764L1592.5 686M1592.5 528.5L1406 450.5L1533 347"
+            stroke="black"
+            strokeOpacity="0.25"
+          />
         </svg>
 
         {/* Nodes */}

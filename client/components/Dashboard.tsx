@@ -78,15 +78,6 @@ const Dashboard: React.FC<DashboardProps> = ({
           value={metrics.totalTx}
           hasBorderBottom
         />
-        <MetricItem
-          label="Leader Change Time"
-          value={metrics.leaderChangeTime}
-        />
-        <MetricItem
-          label="Committee Change Time"
-          value={metrics.committeeChangeTime}
-          hasBorderBottom
-        />
 
         <div className="log-container" ref={logContainerRef}>
           <div className="log-header">block id:</div>
@@ -131,9 +122,6 @@ const Dashboard: React.FC<DashboardProps> = ({
             </button>
             <button style={getButtonStyle(2)} onClick={() => onTabChange(2)}>
               Overview
-            </button>
-            <button style={getButtonStyle(3)} onClick={() => onTabChange(3)}>
-              Committe Change Case
             </button>
           </div>
 
@@ -244,172 +232,6 @@ const Dashboard: React.FC<DashboardProps> = ({
                     shard message
                   </div>
                 </div>
-              </div>
-            </div>
-          )}
-
-          {/* Legend Box - Right Side (only on screen 3) */}
-          {activeTab === 3 && (
-            <div
-              style={{
-                position: "absolute",
-                top: "0px",
-                right: "0px",
-                zIndex: 10,
-                width: "281px",
-                height: "148px",
-                padding: "15px",
-                backgroundColor: "#E9E9EA",
-                border: "1px solid #000",
-                display: "flex",
-                flexDirection: "column",
-                gap: "20px",
-                boxSizing: "border-box",
-              }}
-            >
-              {/* Shard Area */}
-              <div style={{ display: "flex", gap: "36px" }}>
-                {/* Shard Item */}
-                <div
-                  style={{ display: "flex", alignItems: "center", gap: "8px" }}
-                >
-                  <div
-                    style={{
-                      width: "20px",
-                      height: "20px",
-                      borderRadius: "1000px",
-                      backgroundColor: "#000",
-                    }}
-                  ></div>
-                  <div
-                    style={{
-                      color: "#000",
-                      fontFamily:
-                        "Inter, -apple-system, Roboto, Helvetica, sans-serif",
-                      fontSize: "20px",
-                      fontWeight: "600",
-                      lineHeight: "20px",
-                    }}
-                  >
-                    shard
-                  </div>
-                </div>
-                
-              {/* Backup Item */}
-                <div
-                  style={{ display: "flex", alignItems: "center", gap: "8px" }}
-                >
-                  <div
-                    style={{
-                      width: "20px",
-                      height: "20px",
-                      borderRadius: "1000px",
-                      backgroundColor: "#FFF",
-                      border: "1px solid #000",
-                    }}
-                  ></div>
-                  <div
-                    style={{
-                      color: "#000",
-                      fontFamily:
-                        "Inter, -apple-system, Roboto, Helvetica, sans-serif",
-                      fontSize: "20px",
-                      fontWeight: "600",
-                      lineHeight: "20px",
-                    }}
-                  >
-                    backup
-                  </div>
-                </div>
-              </div>
-                            
-              {/* Message Area - Only Committee Change */}
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "8px",
-                }}
-              >
-
-              {/*leader change message*/}
-              <div
-                  style={{ display: "flex", alignItems: "center", gap: "8px" }}
-                >
-                  <svg
-                    width="8"
-                    height="8"
-                    viewBox="0 0 8 8"
-                    fill="none"
-                  >
-                    <circle cx="4" cy="4" r="4" fill="#0000FF" />
-                  </svg>
-                  <div
-                    style={{
-                      color: "#000",
-                      fontFamily:
-                        "Inter, -apple-system, Roboto, Helvetica, sans-serif",
-                      fontSize: "17px",
-                      fontWeight: "600",
-                      lineHeight: "20px",
-                    }}
-                  >
-                    leader change message
-                  </div>
-                </div>
-
-                {/* Committee Change Message */}
-                <div
-                  style={{ display: "flex", alignItems: "center", gap: "8px" }}
-                >
-                  <svg
-                    width="8"
-                    height="8"
-                    viewBox="0 0 8 8"
-                    fill="none"
-                  >
-                    <circle cx="4" cy="4" r="4" fill="#FF8800" />
-                  </svg>
-                  <div
-                    style={{
-                      color: "#000",
-                      fontFamily:
-                        "Inter, -apple-system, Roboto, Helvetica, sans-serif",
-                      fontSize: "17px",
-                      fontWeight: "600",
-                      lineHeight: "20px",
-                    }}
-                  >
-                    committee change message
-                  </div>
-                </div>
-
-                {/* Vote Message */}
-                <div
-                  style={{ display: "flex", alignItems: "center", gap: "8px" }}
-                >
-                  <svg
-                    width="8"
-                    height="8"
-                    viewBox="0 0 8 8"
-                    fill="none"
-                  >
-                    <circle cx="4" cy="4" r="4" fill="#FF00FF" />
-                  </svg>
-                  <div
-                    style={{
-                      color: "#000",
-                      fontFamily:
-                        "Inter, -apple-system, Roboto, Helvetica, sans-serif",
-                      fontSize: "17px",
-                      fontWeight: "600",
-                      lineHeight: "20px",
-                    }}
-                  >
-                    vote message
-                  </div>
-                </div>
-
               </div>
             </div>
           )}
