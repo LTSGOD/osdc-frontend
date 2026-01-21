@@ -609,7 +609,7 @@ const FRAGMENT_SHADER = `
 
 const COLOR_MAP: Record<string, [number, number, number]> = {
   "default": [1, 1, 1],                    // #FFFFFF (흰색)
-  "vote_message": [1, 0, 1],               // #FF00FF (마젠타)
+  "vote_message": [1, 0.5098, 0.8706],    // #FF82DE (마젠타)
   "shard_message": [0, 0, 1],              // #0000FF (파란색) ← 수정됨
   "committee_change_message": [1, 0.65, 0], // #FFA500 (주황색)
 };
