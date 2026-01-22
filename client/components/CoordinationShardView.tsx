@@ -9,6 +9,7 @@ interface NodeData {
   duration?: string;
   delay?: string;
   isActive?: boolean;
+  activationKey?: string;
 }
 
 const RAW_NODES = [
@@ -83,6 +84,7 @@ const ShardNode: React.FC<{ node: NodeData }> = ({ node }) => {
         }}
       >
         <div
+          key={node.activationKey} // Force restart animation on new key
           className="pie-fill-animation"
           style={{
             position: "absolute",
@@ -93,7 +95,6 @@ const ShardNode: React.FC<{ node: NodeData }> = ({ node }) => {
             transform: "translate(-50%, -50%)",
             pointerEvents: "none",
             animationDuration: node.duration || "2s",
-            // animationDelay: node.delay || "0s", // Controlled by playback
             opacity: node.isActive ? 1 : 0,
             transition: "opacity 0.2s",
           }}
@@ -154,7 +155,7 @@ interface SnapshotParticle {
 }
 
 const CoordinationShardView: React.FC = () => {
-  const [shardStates, setShardStates] = React.useState<Record<number, { isActive: boolean; duration: number }>>({});
+  const [shardStates, setShardStates] = React.useState<Record<number, { isActive: boolean; duration: number; activationKey?: string }>>({});
   const [snapshotParticles, setSnapshotParticles] = React.useState<SnapshotParticle[]>([]);
   const [speed, setSpeed] = React.useState(1.0);
   const speedRef = React.useRef(1.0);
@@ -165,7 +166,7 @@ const CoordinationShardView: React.FC = () => {
 
   React.useEffect(() => {
     let animationFrameId: number;
-    let timeline: Record<number, Array<{ startOffset: number; endOffset: number; duration: number }>> = {};
+    let timeline: Record<number, Array<{ key: string; startOffset: number; endOffset: number; duration: number }>> = {};
     let snapshotTimeline: Array<{ id: string; startOffset: number; endOffset: number; duration: number; type: string; from: number; to: number }> = [];
     let playbackStart: number = 0;
 
@@ -231,11 +232,12 @@ const CoordinationShardView: React.FC = () => {
         // 타임라인 빌드
         
         // Worker Consensus - Shard 1~32
-        workerConsensus.forEach((e: any) => {
+        workerConsensus.forEach((e: any, idx: number) => {
            if (!timeline[e.shard]) timeline[e.shard] = [];
            const startOffset = e.startTick - minTime;
            const durationMs = e.durationSec * 1000;
            timeline[e.shard].push({
+             key: `wc-${e.shard}-${idx}`,
              startOffset,
              endOffset: startOffset + durationMs,
              duration: e.durationSec
@@ -243,12 +245,13 @@ const CoordinationShardView: React.FC = () => {
         });
 
         // Coordination Consensus - Shard 0
-        coordConsensus.forEach((e: any) => {
+        coordConsensus.forEach((e: any, idx: number) => {
            // Shard 0 (Center) timeline
            if (!timeline[0]) timeline[0] = [];
            const startOffset = e.startTick - minTime;
            const durationMs = e.durationSec * 1000;
            timeline[0].push({
+             key: `cc-${idx}`,
              startOffset,
              endOffset: startOffset + durationMs,
              duration: e.durationSec
@@ -282,7 +285,7 @@ const CoordinationShardView: React.FC = () => {
           elapsed += dt * speedRef.current;
           
           // 1. Update Shard States
-          const newStates: Record<number, { isActive: boolean; duration: number }> = {};
+          const newStates: Record<number, { isActive: boolean; duration: number; activationKey?: string }> = {};
           let hasActive = false;
           
           Object.keys(timeline).forEach((key) => {
@@ -291,7 +294,11 @@ const CoordinationShardView: React.FC = () => {
              const activeEvent = events.find(ev => elapsed >= ev.startOffset && elapsed < ev.endOffset);
              
              if (activeEvent) {
-               newStates[shardId] = { isActive: true, duration: activeEvent.duration / speedRef.current };
+               newStates[shardId] = { 
+                 isActive: true, 
+                 duration: activeEvent.duration / speedRef.current,
+                 activationKey: activeEvent.key 
+               };
                hasActive = true;
              } else {
                newStates[shardId] = { isActive: false, duration: 2 }; 
@@ -307,7 +314,10 @@ const CoordinationShardView: React.FC = () => {
                       const k = Number(key);
                       const p = prev[k];
                       const n = newStates[k];
-                      if (!p || p.isActive !== n.isActive || Math.abs(p.duration - n.duration) > 0.001) {
+                      if (!p || 
+                          p.isActive !== n.isActive || 
+                          p.activationKey !== n.activationKey ||
+                          Math.abs(p.duration - n.duration) > 0.001) {
                           changed = true;
                           break;
                       }
@@ -350,6 +360,7 @@ const CoordinationShardView: React.FC = () => {
       ...node,
       isActive: shardStates[node.id]?.isActive ?? false,
       duration: shardStates[node.id]?.duration ? `${shardStates[node.id].duration.toFixed(2)}s` : "2s",
+      activationKey: shardStates[node.id]?.activationKey,
       delay: "0s",
     }));
   }, [shardStates]);
@@ -506,6 +517,7 @@ const CoordinationShardView: React.FC = () => {
           }}
         >
            <div
+              key={shard0.activationKey}
               className="pie-fill-animation"
               style={{
                 position: "absolute",
