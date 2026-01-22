@@ -30,23 +30,14 @@ logs/           # 로그 데이터 파일 위치 (필수)
 	 ```
 	 - http://localhost:8080 접속
 
-3. **프로덕션 빌드**
-	 ```bash
-	 pnpm build
-	 pnpm start
-	 ```
 
 ## 로그 파일 안내
 
 - `logs/` 폴더에 다음 파일들이 반드시 위치해야 합니다:
-	- consensus_logs_cleaned.json
+
 	- merged_logs_sorted.json
 	- merged_messages.json
-	- snapshot_logs_cleaned.json
+	- main.4134.log
 	- summary_tps.json
 
 로그 파일이 없으면 대시보드가 정상 동작하지 않습니다.
-
-## 기타
-
-- 라우트 및 API 구조 등은 AGENTS.md 참고
